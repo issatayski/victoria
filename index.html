@@ -75,6 +75,10 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 @media (max-width:420px){.rbtns{grid-template-columns:repeat(2,1fr)}.lform,.ldemo{padding-left:20px;padding-right:20px}}
 
 /* ---------- SHELL ---------- */
+.logo{display:flex;align-items:center;gap:12px}
+.logo .mk{width:40px;height:40px;border-radius:11px;background:var(--brand);display:grid;place-items:center;flex:none}
+.logo b{font-size:18px;letter-spacing:.2px;display:block}
+.logo small{opacity:.75;font-size:12px;display:block}
 .app{display:grid;grid-template-columns:var(--side) 1fr;height:100%}
 .app.col{grid-template-columns:var(--side-c) 1fr}
 .side{background:var(--navy);color:#C9D6E6;display:flex;flex-direction:column;min-height:0;position:sticky;top:0;height:100vh;height:100dvh}
@@ -474,8 +478,8 @@ const PATIENTS=[];const BEDS=[];
         const admit=addD(TODAY,-el);
         const procs=COURSE[d.g].slice(0,ri(4,6)).map(n=>{const s=SV(n);const tot=Math.max(5,Math.round(days*pick([1,1,.7,.5])));return{n,p:s.p,h:s.h,tot,done:Math.min(tot,Math.round(tot*el/days))}});
         const stay=days*12000;const proc=procs.reduce((a,x)=>a+x.p*x.tot,0);const total=stay+proc;
-        const ps=pick(['ok','ok','ok','ok','part','part','debt']);
-        const paid=ps==='ok'?total:ps==='part'?Math.round(total*pick([.5,.6,.7])/1000)*1000:Math.round(total*pick([.2,.3])/1000)*1000;
+        const ps=wpick([{v:'ok',w:86},{v:'part',w:10},{v:'debt',w:4}]).v;
+        const paid=ps==='ok'?total:ps==='part'?total-ri(2,6)*10000:total-ri(8,15)*10000;
         const b0=d.g==='neuro'?ri(30,55):ri(50,70);
         const p={id:'P'+String(1000+pid++),name:person(g),g,age:ri(26,81),d,doc,days,el,admit,dis:addD(admit,days),bed:bed.id,procs,total,paid,
           bIn:b0,bNow:Math.min(100,b0+Math.round(el*(d.g==='neuro'?1.6:2.1))),vIn:ri(5,8),src:wpick([{v:'WhatsApp',w:3},{v:'Instagram',w:2},{v:'Сайт',w:2},{v:'2ГИС',w:1},{v:'Звонок',w:1},{v:'Направление',w:2}]).v,phone:phoneMask(),repeat:R()<.18};
@@ -507,7 +511,7 @@ const LEADS=[];
     const ago=i<9?0:ri(1,13);
     const st=ago===0?(i<6?'new':pick(['new','cons'])):wpick([{v:'new',w:1},{v:'cons',w:3},{v:'book',w:2},{v:'hosp',w:4},{v:'lost',w:2}]).v;
     const g=R()<.5?'M':'F';
-    LEADS.push({id:'L'+(500+i),name:person(g),src:s,st,reason:pick(reasons),msg:msgs[s],date:addD(TODAY,-ago),time:ago===0?tm(ri(8*60,11*60+15)):tm(ri(8*60,19*60)),phone:phoneMask(),ref:s==='Направление'?pick(REFS).id:null,mgr:pick(['Жаксылыкова А.','Сулейменова Д.']),sum:st==='hosp'||st==='book'?ri(22,48)*10000:0});
+    LEADS.push({id:'L'+(500+i),name:person(g),src:s,st,reason:pick(reasons),msg:msgs[s],date:addD(TODAY,-ago),time:ago===0?tm(ri(8*60,11*60+15)):tm(ri(8*60,19*60)),phone:phoneMask(),ref:s==='Направление'?pick(REFS).id:null,mgr:pick(['Жаксылыкова А.','Сулейменова Д.']),sum:st==='hosp'||st==='book'?ri(18,32)*10000:0});
   }
   LEADS.sort((a,b)=>b.date-a.date||b.time.localeCompare(a.time));
 })();
@@ -532,9 +536,10 @@ const APPTS=[];
 })();
 const WHO=id=>DOC(id);
 
-/* payments today */
+/* payments today — ~360 тыс ₸ */
 const PAYS=[];
-(function(){for(let i=0;i<19;i++){const p=pick(PATIENTS);const kind=pick(['Курс реабилитации','Доплата за курс','Консультация','Процедуры','Предоплата (бронь)']);const sum=kind==='Консультация'?8000:kind==='Процедуры'?ri(3,12)*2500:ri(8,30)*10000;PAYS.push({id:'Ч-'+(2140+i),t:tm(ri(9*60,11*60+15)),name:kind==='Консультация'?person('F'):p.name,kind,sum,m:wpick([{v:'Kaspi QR',w:5},{v:'Карта',w:3},{v:'Наличные',w:2},{v:'Перевод',w:1}]).v,cashier:pick(['Жаксылыкова А.','Сулейменова Д.'])})}PAYS.sort((a,b)=>b.t.localeCompare(a.t))})();
+(function(){const L=[['11:12','Доплата за курс',60000,'Kaspi QR'],['11:02','Консультация',8000,'Kaspi QR'],['10:48','Процедуры',12000,'Карта'],['10:35','Предоплата (бронь)',50000,'Перевод'],['10:21','Консультация',8000,'Наличные'],['10:10','Курс реабилитации',95000,'Kaspi QR'],['09:58','Процедуры',7500,'Kaspi QR'],['09:44','Массаж, курс 5 сеансов',15000,'Карта'],['09:31','Консультация',10000,'Kaspi QR'],['09:20','Доплата за курс',40000,'Наличные'],['09:12','Процедуры',9000,'Kaspi QR'],['09:05','Гидрокинезотерапия',10000,'Карта'],['08:58','ЭКГ + консультация',11000,'Наличные'],['08:50','Койко-дни (продление)',24000,'Kaspi QR']];
+L.forEach(([t,kind,sum,m],i)=>{const p=pick(PATIENTS);PAYS.push({id:'Ч-'+(2140+i),t,name:/Консультация|ЭКГ|Массаж|Гидро/.test(kind)?person(R()<.5?'M':'F'):p.name,kind,sum,m,cashier:pick(['Жаксылыкова А.','Сулейменова Д.'])})})})();
 
 /* stock */
 const STOCK=[
@@ -552,8 +557,8 @@ const WOFF=[
 {t:'09:15',n:'Перчатки нитриловые',q:'40 пар',why:'Выдача в процедурный кабинет',auto:false}];
 
 /* months */
-const MONTHS=[];for(let i=11;i>=0;i--){const d=new Date(2026,8-i,1);MONTHS.push({l:MON[d.getMonth()],rev:Math.round((41+ (11-i)*1.35 + (R()*3-1.5))*1e6),occ:Math.round(72+(11-i)*1.3+R()*3),ns:Math.max(4,Math.round(15-(i<4?(4-i)*2.4:0)-R()))})}
-const ADS=[{s:'Instagram',spend:420000,leads:74,hosp:19,rev:6840000},{s:'Сайт',spend:180000,leads:61,hosp:17,rev:6120000},{s:'2ГИС',spend:95000,leads:28,hosp:8,rev:2880000},{s:'WhatsApp',spend:0,leads:96,hosp:31,rev:11160000},{s:'Направление',spend:260000,leads:33,hosp:21,rev:7560000},{s:'Звонок',spend:0,leads:30,hosp:9,rev:3240000}];
+const MONTHS=[];for(let i=11;i>=0;i--){const d=new Date(2026,8-i,1);MONTHS.push({l:MON[d.getMonth()],rev:Math.round((7.9+(11-i)*0.24+(R()*0.4-0.2))*1e6),occ:Math.round(72+(11-i)*1.3+R()*3),ns:Math.max(4,Math.round(15-(i<4?(4-i)*2.4:0)-R()))})}
+const ADS=[{s:'Instagram',spend:150000,leads:22,hosp:5,rev:1150000},{s:'Сайт',spend:60000,leads:18,hosp:5,rev:1080000},{s:'2ГИС',spend:40000,leads:8,hosp:2,rev:460000},{s:'WhatsApp',spend:0,leads:28,hosp:8,rev:1820000},{s:'Направление',spend:90000,leads:11,hosp:5,rev:1100000},{s:'Звонок',spend:0,leads:9,hosp:2,rev:430000}];
 
 /* surveys */
 const SURV={nps:74,n:86,cats:[['Врачи',4.9],['Процедуры и занятия',4.8],['Отношение персонала',4.8],['Чистота',4.7],['Доступность для маломобильных',4.9],['Питание',4.3]],
@@ -617,14 +622,14 @@ const hmColor=v=>v>=90?['#0B6FB8','#fff']:v>=75?['#5A9FD6','#fff']:v>=55?['#B7D6
 
 const P={};
 P.dash={t:'Дашборд',i:'home',r(){
-  const b=bedStats();const occ=pct(b.occ,120);const leadsM=322,conv=33;const rev=MONTHS[11].rev;
+  const b=bedStats();const occ=pct(b.occ,120);const leadsM=ADS.reduce((a,x)=>a+x.leads,0),conv=pct(ADS.reduce((a,x)=>a+x.hosp,0),leadsM);const rev=MONTHS[11].rev;
   const avgHall=Math.round(HL.flatMap(x=>x.v).reduce((a,c)=>a+c,0)/(HL.length*7));
   return `<div class="sec-h"><div><p>${CENTER.full} · сентябрь 2026</p></div><div class="sp"></div><div class="chips hide-m"><button class="chip">Неделя</button><button class="chip on">Месяц</button><button class="chip">Квартал</button></div></div>
   <div class="grid g4 mb">
-   ${kpi('Заявки за месяц',nf(leadsM),'▲ 24% к августу','inbox')}
-   ${kpi('Конверсия в госпитализацию',conv+'%','▲ 7 п.п. к августу','funnel')}
+   ${kpi('Заявки за месяц',nf(leadsM),'▲ 18% к августу','inbox')}
+   ${kpi('Конверсия в госпитализацию',conv+'%','▲ 4 п.п. к августу','funnel')}
    ${kpi('Неявки на процедуры',MONTHS[11].ns+'%','▼ с 15% до '+MONTHS[11].ns+'% за 4 месяца','bell')}
-   ${kpi('Выручка за месяц',mln(rev),'▲ 9% к августу','cash')}
+   ${kpi('Выручка за месяц',mln(rev),'≈ '+money(Math.round(rev/30/1000)*1000)+' в день','cash')}
    ${kpi('Загрузка коек',occ+'%',b.occ+' из 120 · свободно '+b.free,'bed','muted')}
    ${kpi('Загрузка залов',avgHall+'%','7 залов, среднее за день','grid','muted')}
    ${kpi('Окупаемость рекламы','×'+(ADS.reduce((a,x)=>a+x.rev,0)/ADS.reduce((a,x)=>a+x.spend,0)).toFixed(0),'на 1 ₸ рекламы — '+Math.round(ADS.reduce((a,x)=>a+x.rev,0)/ADS.reduce((a,x)=>a+x.spend,0))+' ₸ выручки','trend')}
@@ -683,11 +688,11 @@ P.reports={t:'Отчёты и аналитика',i:'chart',r(){
   </div></div></div>`}};
 
 P.referrals={t:'Реферальная программа',i:'link',r(){
-  const rows=REFS.map((r,i)=>{const leads=[14,11,9,8,7,5,4,3][i];const hosp=Math.round(leads*[.7,.64,.67,.62,.71,.6,.5,.67][i]);const rev=hosp*360000;return{...r,leads,hosp,rev,rew:Math.round(rev*.05)}});
+  const rows=REFS.map((r,i)=>{const leads=[4,3,3,2,2,1,1,1][i];const hosp=[3,2,2,1,1,1,0,1][i];const rev=hosp*210000;return{...r,leads,hosp,rev,rew:Math.round(rev*.05)}});
   const qr=()=>{let s='';for(let i=0;i<121;i++){const x=i%11,y=Math.floor(i/11);const f=(x<3&&y<3)||(x>7&&y<3)||(x<3&&y>7);s+=`<i class="${f||R()<.5?'':'o'}"></i>`}return `<div class="qr">${s}</div>`};
-  return `<div class="grid g4 mb">${kpi('Направляющих врачей',REFS.length,'+2 за месяц','users')}${kpi('Заявок по QR',rows.reduce((a,r)=>a+r.leads,0),'10% всех заявок','link','muted')}${kpi('Госпитализировано',rows.reduce((a,r)=>a+r.hosp,0),'конверсия '+pct(rows.reduce((a,r)=>a+r.hosp,0),rows.reduce((a,r)=>a+r.leads,0))+'%','check')}${kpi('Вознаграждения',money(rows.reduce((a,r)=>a+r.rew,0)),'5% от оплаченного курса','coins','muted')}</div>
+  return `<div class="grid g4 mb">${kpi('Направляющих врачей',REFS.length,'+2 за месяц','users')}${kpi('Заявок по QR',rows.reduce((a,r)=>a+r.leads,0),'12% всех заявок','link','muted')}${kpi('Госпитализировано',rows.reduce((a,r)=>a+r.hosp,0),'конверсия '+pct(rows.reduce((a,r)=>a+r.hosp,0),rows.reduce((a,r)=>a+r.leads,0))+'%','check')}${kpi('Вознаграждения',money(rows.reduce((a,r)=>a+r.rew,0)),'5% от оплаченного курса','coins','muted')}</div>
   <div class="grid g-2-1">
-   <div class="card"><div class="hd"><h3>Рейтинг направляющих</h3><div class="sp"></div><button class="btn sm" data-a="toast" data-m="Приглашение отправлено в WhatsApp">${ic('plus')}Пригласить врача</button></div><div class="bd p0 tw"><table class="t"><thead><tr><th>Врач</th><th class="r">Заявки</th><th class="r">Госпит.</th><th class="r">Выручка</th><th class="r">К выплате</th><th></th></tr></thead><tbody>${rows.map(r=>`<tr><td><div class="who">${av(r.n)}<div><b>${r.n}</b><small>${r.org}</small></div></div></td><td class="r num">${r.leads}</td><td class="r num">${r.hosp}</td><td class="r num">${mln(r.rev)}</td><td class="r num"><b>${money(r.rew)}</b></td><td><span class="bdg ${r.hosp>6?'ok':'info'}">${r.hosp>6?'Выплачено':'Начислено'}</span></td></tr>`).join('')}</tbody></table></div></div>
+   <div class="card"><div class="hd"><h3>Рейтинг направляющих</h3><div class="sp"></div><button class="btn sm" data-a="toast" data-m="Приглашение отправлено в WhatsApp">${ic('plus')}Пригласить врача</button></div><div class="bd p0 tw"><table class="t"><thead><tr><th>Врач</th><th class="r">Заявки</th><th class="r">Госпит.</th><th class="r">Выручка</th><th class="r">К выплате</th><th></th></tr></thead><tbody>${rows.map(r=>`<tr><td><div class="who">${av(r.n)}<div><b>${r.n}</b><small>${r.org}</small></div></div></td><td class="r num">${r.leads}</td><td class="r num">${r.hosp}</td><td class="r num">${money(r.rev)}</td><td class="r num"><b>${money(r.rew)}</b></td><td><span class="bdg ${r.hosp>1?'ok':'info'}">${r.hosp>1?'Выплачено':r.hosp?'Начислено':'Нет оплат'}</span></td></tr>`).join('')}</tbody></table></div></div>
    <div class="card"><div class="hd"><h3>Персональный QR-код</h3></div><div class="bd"><div class="row" style="flex-wrap:nowrap;align-items:flex-start">${qr()}<div><b>Бекова Г.А.</b><div class="muted small">Городская поликлиника №5</div><div class="small" style="margin-top:8px">Пациент сканирует код, заявка сразу попадает в CRM с отметкой врача.</div></div></div>
     <div class="tl" style="margin-top:18px"><div class="it done"><b>Врач выдаёт QR пациенту</b><div class="muted small">Визитка или сообщение</div></div><div class="it done"><b>Заявка в CRM</b><div class="muted small">Источник: Направление</div></div><div class="it cur"><b>Пациент госпитализирован</b><div class="muted small">Начисление 5%</div></div><div class="it"><b>Выплата</b><div class="muted small">Раз в месяц</div></div></div></div></div>
   </div>`}};
@@ -752,13 +757,13 @@ P.cash={t:'Касса',i:'cash',r(){
   return `<div class="sec-h"><span class="bdg ok">Смена открыта в 08:45 · Жаксылыкова А.</span><div class="sp"></div><button class="btn" data-a="toast" data-m="Z-отчёт сформирован">Закрыть смену</button><button class="btn pr" data-a="pay">${ic('plus')}Принять оплату</button></div>
   <div class="grid g4 mb">${kpi('Принято сегодня',money(tot),PAYS.length+' операций','cash')}${Object.entries(by).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([m,v])=>kpi(m,money(v),pct(v,tot)+'% оплат','pay','muted')).join('')}</div>
   <div class="grid g-2-1"><div class="card"><div class="hd"><h3>Операции за ${ddy(TODAY)}</h3></div><div class="bd p0 tw"><table class="t"><thead><tr><th>Время</th><th>Чек</th><th>Плательщик</th><th>Назначение</th><th>Способ</th><th class="r">Сумма</th></tr></thead><tbody>${PAYS.map(p=>`<tr><td class="num">${p.t}</td><td class="num small muted">${p.id}</td><td>${esc(p.name)}</td><td class="small">${p.kind}</td><td><span class="bdg">${p.m}</span></td><td class="r num"><b>${money(p.sum)}</b></td></tr>`).join('')}</tbody></table></div></div>
-  <div class="card"><div class="hd"><h3>Способы оплаты</h3></div><div class="bd">${donut(Object.entries(by).map(([m,v])=>({l:m,v,c:cols[m]})),{t:'сегодня',v:(tot/1e6).toFixed(2).replace('.',',')+' млн'})}</div></div></div>`}};
+  <div class="card"><div class="hd"><h3>Способы оплаты</h3></div><div class="bd">${donut(Object.entries(by).map(([m,v])=>({l:m,v,c:cols[m]})),{t:'сегодня',v:Math.round(tot/1000)+' тыс ₸'})}</div></div></div>`}};
 P.debts={t:'Остатки к оплате',i:'wallet',badge:debtCount,r(){
   const ds=PATIENTS.filter(p=>p.total>p.paid).sort((a,b)=>(b.total-b.paid)-(a.total-a.paid));const sum=ds.reduce((a,p)=>a+p.total-p.paid,0);
   return `<div class="grid g4 mb">${kpi('Общий остаток',mln(sum),ds.length+' пациентов','wallet','muted')}${kpi('Выписка завтра с долгом',ds.filter(p=>p.el===p.days-1).length,'нужен контроль','alert','down')}${kpi('Напоминаний отправлено','14','вчера в 12:00','wa','muted')}${kpi('Погашено за неделю',mln(sum*.62),'после напоминаний','check')}</div>
   <div class="card"><div class="hd"><h3>Пациенты с остатком</h3><div class="sp"></div><button class="btn sm" data-a="toast" data-m="Напоминания отправлены 14 пациентам">${ic('wa')}Напомнить всем</button></div><div class="bd p0 tw"><table class="t"><thead><tr><th>Пациент</th><th>Выписка</th><th class="r">Стоимость курса</th><th class="r">Оплачено</th><th>Прогресс</th><th class="r">Остаток</th><th></th></tr></thead><tbody>${ds.map(p=>`<tr><td><div class="who">${av(p.name)}<div><b>${esc(p.name)}</b><small>${p.id} · палата ${p.bed}</small></div></div></td><td class="num">${p.el===p.days-1?'<span class="bdg warn">Завтра</span>':dd(p.dis)}</td><td class="r num">${money(p.total)}</td><td class="r num">${money(p.paid)}</td><td><div class="bar" style="width:100px"><i style="width:${pct(p.paid,p.total)}%"></i></div></td><td class="r num"><b style="color:var(--bad)">${money(p.total-p.paid)}</b></td><td><button class="btn sm" data-a="pay" data-id="${p.id}">Оплата</button></td></tr>`).join('')}</tbody></table></div></div>`}};
 P.salary={t:'Зарплата',i:'coins',r(){
-  const rows=SPECS.map(s=>{const n=APPTS.filter(a=>a.who===s.id).length*20+ri(-15,25);const avgp=s.hall==='mass'?3200:s.hall==='physio'?2600:s.hall==='pool'?8400:s.hall==='mech'?4600:5200;const sum=n*avgp;const fix=150000;return{...s,n,sum,fix,bonus:Math.round(sum*s.rate),tot:fix+Math.round(sum*s.rate)}});
+  const rows=SPECS.map(s=>{const n=Math.round(APPTS.filter(a=>a.who===s.id).length*8.5)+ri(-8,8);const avgp=s.hall==='mass'?2800:s.hall==='physio'?2200:s.hall==='pool'?7000:s.hall==='mech'?3800:4500;const sum=n*avgp;const fix=130000;const rate=s.rate/3;const bonus=Math.round(sum*rate/100)*100;return{...s,rate,n,sum,fix,bonus,tot:fix+bonus}});
   return `<div class="sec-h"><div class="chips"><button class="chip">Август</button><button class="chip on">Сентябрь, 1–22</button></div><div class="sp"></div><button class="btn" data-a="toast" data-m="Ведомость выгружена">${ic('inn')}Ведомость</button></div>
   <div class="grid g4 mb">${kpi('Фонд оплаты',mln(rows.reduce((a,r)=>a+r.tot,0)),'специалисты, 8 чел.','coins','muted')}${kpi('Процедур выполнено',nf(rows.reduce((a,r)=>a+r.n,0)),'учтено автоматически','check')}${kpi('Процент с процедур',mln(rows.reduce((a,r)=>a+r.bonus,0)),'по ставке сотрудника','trend','muted')}${kpi('Ручной ввод','0','данные из расписания','clip')}</div>
   <div class="card"><div class="bd p0 tw"><table class="t"><thead><tr><th>Сотрудник</th><th class="r">Процедур</th><th class="r">На сумму</th><th class="r">Ставка</th><th class="r">Оклад</th><th class="r">Процент</th><th class="r">Итого</th></tr></thead><tbody>${rows.map(r=>`<tr><td><div class="who">${av(r.s,null,'sm')}<div><b>${r.s}</b><small>${r.pos}</small></div></div></td><td class="r num">${r.n}</td><td class="r num">${money(r.sum)}</td><td class="r num">${Math.round(r.rate*100)}%</td><td class="r num">${money(r.fix)}</td><td class="r num">${money(r.bonus)}</td><td class="r num"><b>${money(r.tot)}</b></td></tr>`).join('')}</tbody></table></div></div>`}};
@@ -872,7 +877,7 @@ document.addEventListener('click',e=>{
   else if(a==='toast'){toast(el.dataset.m)}
   else if(a==='pt'){if(S.role==='patient')return;patientCard(el.dataset.id)}
   else if(a==='bed'){const b=BEDS.find(x=>x.id===el.dataset.id);toast('Палата '+b.room+', койка '+b.b+': '+({free:'свободна',bron:'забронирована',clean:'на уборке'}[b.s]))}
-  else if(a==='next'){const l=LEADS.find(x=>x.id===el.dataset.id);const i=STAGES.findIndex(s=>s.id===l.st);l.st=STAGES[Math.min(3,i+1)].id;if(l.st==='book'||l.st==='hosp')l.sum=l.sum||ri(22,48)*10000;toast(l.name+' → '+STAGES.find(s=>s.id===l.st).n);render()}
+  else if(a==='next'){const l=LEADS.find(x=>x.id===el.dataset.id);const i=STAGES.findIndex(s=>s.id===l.st);l.st=STAGES[Math.min(3,i+1)].id;if(l.st==='book'||l.st==='hosp')l.sum=l.sum||ri(18,32)*10000;toast(l.name+' → '+STAGES.find(s=>s.id===l.st).n);render()}
   else if(a==='newlead'){modal('Новая заявка',`<div class="fld"><label>ФИО</label><input id="f1" value="Нуртаева Самал Б."></div><div class="fld"><label>Источник</label><select id="f2">${Object.keys(SRC).map(s=>`<option>${s}</option>`).join('')}</select></div><div class="fld"><label>Запрос</label><input id="f3" value="Реабилитация после инсульта"></div>`,'Создать заявку',()=>{LEADS.unshift({id:'L'+ri(600,999),name:document.getElementById('f1').value||'Без имени',src:document.getElementById('f2').value,st:'new',reason:document.getElementById('f3').value,msg:'Создано вручную',date:TODAY,time:tm(NOW_MIN),phone:phoneMask(),mgr:'Жаксылыкова А.',sum:0});toast('Заявка создана');render()})}
   else if(a==='book'){const w=el.dataset.w||'s2',m=+el.dataset.m||14*60+30;const free=SLOTS.filter(x=>x!=='lunch');modal('Запись на процедуру',`<div class="fld"><label>Пациент</label><select id="f1">${optPts()}</select></div><div class="fld"><label>Специалист</label><select id="f2">${['s1','s2','s3','s4','s5','s6','s7','s8','d3','d2'].map(x=>`<option value="${x}" ${x===w?'selected':''}>${WHO(x).s} · ${WHO(x).pos}</option>`).join('')}</select></div><div class="fld"><label>Время</label><select id="f3">${free.map(x=>`<option value="${x}" ${x===m?'selected':''}>${tm(x)}</option>`).join('')}</select></div><div class="fld"><label><input type="checkbox" checked style="width:auto"> Отправить напоминание в WhatsApp</label></div>`,'Записать',()=>{const pid=document.getElementById('f1').value,who=document.getElementById('f2').value,mm=+document.getElementById('f3').value;const ex=APPTS.findIndex(x=>x.who===who&&x.m===mm);if(ex>=0)APPTS.splice(ex,1);const p=PT(pid);const pr=p.procs[0];APPTS.push({id:'A'+ri(900,999),who,m:mm,name:p.name,pid,sv:pr.n,h:pr.h,st:'plan',conf:false});toast('Записано: '+p.name+', '+tm(mm));render()})}
   else if(a==='admit'){const b=BRON.find(x=>x.id===el.dataset.id);const fr=BEDS.filter(x=>x.s==='free'&&x.g===b.g);modal('Разместить пациента',`<p style="margin-top:0"><b>${esc(b.name)}</b><br><span class="muted small">${b.d.n} · ${b.days} дней</span></p><div class="fld"><label>Свободная койка (${b.g==='M'?'мужские':'женские'} палаты)</label><select id="f1">${fr.map(x=>`<option value="${x.id}">Палата ${x.room}, койка ${x.b} · ${x.floor} этаж</option>`).join('')}</select></div><div class="fld"><label>Лечащий врач</label><select id="f2">${DOCS.filter(d=>d.cl).map(d=>`<option value="${d.id}">${d.s}</option>`).join('')}</select></div>`,'Госпитализировать',()=>{const bid=document.getElementById('f1').value;const bed=BEDS.find(x=>x.id===bid);const doc=document.getElementById('f2').value;const procs=COURSE[b.d.g].slice(0,5).map(n=>{const s=SV(n);return{n,p:s.p,h:s.h,tot:b.days,done:0}});const total=b.days*12000+procs.reduce((x,y)=>x+y.p*y.tot,0);const p={id:'P'+ri(2000,2999),name:b.name,g:b.g,age:b.age,d:b.d,doc,days:b.days,el:0,admit:TODAY,dis:addD(TODAY,b.days),bed:bid,procs,total,paid:b.prepaid,bIn:40,bNow:40,vIn:6,vNow:6,src:b.src,phone:b.phone};PATIENTS.push(p);bed.s='occ';bed.p=p.id;b.done=bed.room;toast(b.name+' — палата '+bed.room);render()})}
