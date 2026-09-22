@@ -1,1 +1,820 @@
-1
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Victoria CRM — демо системы для реабилитационного центра</title>
+<meta name="description" content="Демо CRM для реабилитационного центра Victoria (Шымкент): пациенты, коечный фонд, запись, заявки, касса, склад, аналитика. Рабочие места для главврача, врача, регистратуры, бухгалтерии, завсклада и пациента.">
+<meta name="theme-color" content="#0B6FB8">
+<link rel="canonical" href="https://issatayski.github.io/victoria/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Victoria CRM">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://issatayski.github.io/victoria/">
+<meta property="og:title" content="Victoria CRM — демо для реабилитационного центра">
+<meta property="og:description" content="120 коек, запись, заявки из WhatsApp и Instagram, касса, склад и аналитика. Шесть рабочих мест в одной системе.">
+<meta property="og:image" content="https://issatayski.github.io/victoria/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Реабилитационный центр Victoria, Шымкент">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Victoria CRM — демо для реабилитационного центра">
+<meta name="twitter:description" content="Шесть рабочих мест: главврач, врач, регистратура, бухгалтерия, склад, пациент.">
+<meta name="twitter:image" content="https://issatayski.github.io/victoria/og.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B6FB8'/%3E%3Cpath d='M9 9l7 14 7-14' fill='none' stroke='white' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#0B6FB8;--brand-d:#08568F;--brand-50:#E7F1FA;--brand-100:#CFE3F4;
+  --teal:#13A08F;--teal-50:#E3F5F2;--navy:#10294B;--navy-2:#16365F;
+  --bg:#EEF2F7;--card:#FFFFFF;--line:#DCE3EB;--line-2:#EDF1F5;
+  --text:#18283A;--muted:#667789;--ok:#1C9A66;--ok-50:#E3F4EC;--warn:#D98A0B;--warn-50:#FCF1DC;
+  --bad:#D2433F;--bad-50:#FBE7E6;--violet:#6A5BD6;--violet-50:#EEEBFB;
+  --r:10px;--side:252px;--side-c:74px;
+  --font:"Golos Text",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+:root{padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{font-family:var(--font);font-size:14px;line-height:1.45;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--brand)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.num{font-variant-numeric:tabular-nums}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ---------- LOGIN ---------- */
+.login{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:32px 16px;background:linear-gradient(160deg,#E7F1FA 0%,#EEF2F7 45%,#E3F5F2 100%)}
+.lbox{width:min(460px,100%);background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 12px 40px rgba(16,41,75,.08)}
+.lbox .lh{padding:26px 28px 6px;text-align:center}
+.lbox .lh .mk{width:52px;height:52px;border-radius:14px;background:var(--brand);display:grid;place-items:center;margin:0 auto 12px}
+.lbox .lh b{font-size:20px;display:block}
+.lbox .lh small{color:var(--muted)}
+.lform{padding:18px 28px 22px}
+.lform .fld input{height:44px;padding:0 12px 0 40px}
+.lform .inp{position:relative}
+.lform .inp svg.i{position:absolute;left:12px;top:12px;width:19px;height:19px;color:var(--muted)}
+.lform .row2{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin:-4px 0 16px}
+.lform .row2 label{display:flex;gap:6px;align-items:center;color:var(--muted)}
+.lform .go{width:100%;height:46px;justify-content:center;font-size:15px}
+.lerr{color:var(--bad);font-size:13px;margin:-6px 0 12px;display:none}
+.lerr.on{display:block}
+.ldemo{border-top:1px solid var(--line-2);padding:16px 28px 24px}
+.ldemo .t{font-size:12.5px;color:var(--muted);text-align:center;margin-bottom:12px}
+.rbtns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rbtn{all:unset;cursor:pointer;border:1px solid var(--line);border-radius:10px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;font-weight:500;text-align:center;transition:border-color .15s,background .15s}
+.rbtn:hover{border-color:var(--brand);background:var(--brand-50)}
+.rbtn:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.rbtn .ri{width:34px;height:34px;border-radius:9px;display:grid;place-items:center}
+.rbtn .ri svg.i{width:19px;height:19px}
+.lfoot{margin-top:18px;text-align:center;color:var(--muted);font-size:12px;max-width:460px}
+@media (max-width:420px){.rbtns{grid-template-columns:repeat(2,1fr)}.lform,.ldemo{padding-left:20px;padding-right:20px}}
+
+/* ---------- SHELL ---------- */
+.app{display:grid;grid-template-columns:var(--side) 1fr;height:100%}
+.app.col{grid-template-columns:var(--side-c) 1fr}
+.side{background:var(--navy);color:#C9D6E6;display:flex;flex-direction:column;min-height:0;position:sticky;top:0;height:100vh;height:100dvh}
+.side .logo{padding:18px 18px 14px;color:#fff}
+.side .logo .txt{white-space:nowrap;overflow:hidden}
+.rolepill{margin:0 14px 10px;background:var(--navy-2);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px}
+.rolepill .av{width:34px;height:34px}
+.rolepill b{color:#fff;font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rolepill small{font-size:11.5px;opacity:.8;white-space:nowrap}
+.rolepill .t{min-width:0}
+.nav{flex:1;overflow:auto;padding:6px 10px}
+.nav a span{overflow:hidden;text-overflow:ellipsis}.nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;color:#C9D6E6;text-decoration:none;margin-bottom:2px;white-space:nowrap;position:relative}
+.nav a:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav a.on{background:var(--brand);color:#fff}
+.nav a .bd{margin-left:auto;background:var(--bad);color:#fff;font-size:11px;border-radius:20px;padding:1px 7px;font-weight:600}
+.side-foot{padding:10px;border-top:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:2px}
+.side-foot button{all:unset;cursor:pointer;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:9px;white-space:nowrap;color:#C9D6E6}
+.side-foot button:hover{background:rgba(255,255,255,.06);color:#fff}
+.app.col .side .txt,.app.col .nav a span,.app.col .nav a .bd,.app.col .side-foot span,.app.col .rolepill .t{display:none}
+.app.col .rolepill{justify-content:center;padding:8px;margin:0 10px 10px}
+.app.col .nav a,.app.col .side-foot button{justify-content:center}
+.app.col .side .logo{justify-content:center;padding-left:0;padding-right:0}
+.app.col .colbtn svg{transform:rotate(180deg)}
+.main{min-width:0;display:flex;flex-direction:column;min-height:0;height:100vh;height:100dvh;overflow:auto}
+.top{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);height:60px;display:flex;align-items:center;gap:14px;padding:0 24px;flex:none}
+.top h1{font-size:18px;margin:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .sp{flex:1}
+.srch{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:9px;padding:7px 12px;color:var(--muted);width:260px}
+.srch input{border:0;background:none;outline:0;width:100%}
+.today{color:var(--muted);font-size:13px;white-space:nowrap}
+.ibtn{all:unset;cursor:pointer;width:38px;height:38px;border-radius:9px;display:grid;place-items:center;color:var(--muted);position:relative}
+.ibtn:hover{background:var(--bg);color:var(--text)}
+.ibtn .dot{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:50%;background:var(--bad);border:2px solid #fff}
+.top .mlogo{display:none}
+.content{padding:22px 24px 40px;max-width:1440px;width:100%}
+.av{width:36px;height:36px;border-radius:50%;background:var(--brand-100);color:var(--brand-d);display:grid;place-items:center;font-weight:600;font-size:13px;flex:none;overflow:hidden;position:relative}
+.av img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.av.sm{width:28px;height:28px;font-size:11px}
+.av.lg{width:56px;height:56px;font-size:18px}
+
+/* bottom nav */
+.bnav{display:none}
+
+/* ---------- COMPONENTS ---------- */
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g-2-1{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);min-width:0}
+.card>.hd{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line-2)}
+.card>.hd h3{margin:0;font-size:15px;font-weight:600}
+.card>.hd .sp{flex:1}
+.card>.bd{padding:16px}
+.card>.bd.p0{padding:0}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+.kpi{padding:16px}
+.kpi .l{color:var(--muted);font-size:13px;display:flex;align-items:center;gap:8px}
+.kpi .v{font-size:26px;font-weight:700;margin:6px 0 4px;letter-spacing:-.3px}
+.kpi .d{font-size:12.5px}
+.up{color:var(--ok)}.down{color:var(--bad)}
+.kpi .ic{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:var(--brand-50);color:var(--brand)}
+.kpi .ic svg.i{width:17px;height:17px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:8px 14px;font-weight:500;white-space:nowrap}
+.btn:hover{border-color:#b9c6d4}
+.btn.pr{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.pr:hover{background:var(--brand-d)}
+.btn.sm{padding:5px 10px;font-size:12.5px;border-radius:7px}
+.btn.gh{border-color:transparent;background:transparent;color:var(--brand)}
+.btn svg.i{width:17px;height:17px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:5px 12px;font-size:13px}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.bdg{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;border-radius:6px;padding:2px 8px;white-space:nowrap;background:var(--bg);color:#3d4f63}
+.bdg.ok{background:var(--ok-50);color:var(--ok)}
+.bdg.warn{background:var(--warn-50);color:#9a6206}
+.bdg.bad{background:var(--bad-50);color:var(--bad)}
+.bdg.info{background:var(--brand-50);color:var(--brand-d)}
+.bdg.teal{background:var(--teal-50);color:#0b7a6c}
+.bdg.vio{background:var(--violet-50);color:var(--violet)}
+.tw{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+table.t th{text-align:left;font-weight:500;color:var(--muted);font-size:12.5px;padding:10px 14px;border-bottom:1px solid var(--line);background:#F8FAFC;white-space:nowrap}
+table.t td{padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+table.t tr:last-child td{border-bottom:0}
+table.t tr.cl{cursor:pointer}
+table.t tr.cl:hover td{background:#F7FAFD}
+table.t .r{text-align:right}
+.who{display:flex;align-items:center;gap:10px;min-width:0}
+.who b{font-weight:500;display:block;white-space:nowrap}
+.who small{color:var(--muted);font-size:12px;white-space:nowrap}
+.bar{height:8px;border-radius:5px;background:var(--line-2);overflow:hidden;min-width:60px}
+.bar i{display:block;height:100%;background:var(--brand);border-radius:5px}
+.bar.teal i{background:var(--teal)}
+.sec-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 16px}
+.sec-h .sp{flex:1}
+.sec-h p{margin:0;color:var(--muted)}
+.mb{margin-bottom:16px}
+.list-i{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line-2)}
+.list-i:last-child{border-bottom:0}
+.list-i .gr{flex:1;min-width:0}
+.list-i .gr b{font-weight:500;display:block}
+.src{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:#fff;flex:none;font-size:11px;font-weight:700}
+.src svg.i{width:15px;height:15px}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+svg.ch{width:100%;height:auto;display:block}
+svg.ch text{font-family:var(--font);fill:var(--muted);font-size:11px}
+
+/* beds */
+.floors{display:grid;gap:18px}
+.floor h4{margin:0 0 10px;font-size:13px;font-weight:600;color:var(--muted)}
+.rooms{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}@media(max-width:1100px){.rooms{grid-template-columns:repeat(auto-fill,minmax(128px,1fr))}}
+.room{border:1px solid var(--line);border-radius:9px;padding:8px;background:#fff}
+.room .rn{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px}
+.room .rn b{color:var(--text)}
+.beds{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.bed{all:unset;cursor:pointer;height:34px;border-radius:6px;display:grid;place-items:center;font-size:11px;font-weight:600}
+.bed.occ{background:var(--brand);color:#fff}
+.bed.occ.f{background:#8C5BC9}
+.bed.free{background:var(--ok-50);color:var(--ok);border:1px dashed #86cbac}
+.bed.bron{background:var(--warn-50);color:#9a6206}
+.bed.clean{background:#E9EDF2;color:#7a8898}
+.bed.out{background:var(--bad-50);color:var(--bad)}
+
+/* heatmap */
+.hm{display:grid;gap:4px;font-size:12px}
+.hm .c{height:34px;border-radius:5px;display:grid;place-items:center;font-weight:600;font-size:11.5px}
+.hm .lb{display:flex;align-items:center;color:var(--text);font-size:13px;white-space:nowrap;padding-right:8px}
+.hm .th{color:var(--muted);text-align:center}
+
+/* kanban */
+.kb{display:grid;grid-template-columns:repeat(5,minmax(230px,1fr));gap:12px;overflow-x:auto;padding-bottom:6px}
+.kc{background:#E6ECF3;border-radius:10px;padding:10px;min-width:230px}
+.kc>.kh{display:flex;align-items:center;gap:8px;padding:2px 4px 10px;font-weight:600;font-size:13.5px}
+.kc>.kh .n{margin-left:auto;background:#fff;border-radius:12px;padding:0 8px;font-size:12px;color:var(--muted)}
+.kc>.kh i{width:8px;height:8px;border-radius:50%}
+.lc{background:#fff;border-radius:9px;padding:10px 12px;margin-bottom:8px;border:1px solid var(--line)}
+.lc .tp{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.lc b{font-weight:500}
+.lc .ds{font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.lc .ft{display:flex;align-items:center;gap:6px;justify-content:space-between}
+
+/* schedule */
+.sch{display:grid;gap:0;border:1px solid var(--line);border-radius:10px;overflow:auto;background:#fff}
+.sch .h{position:sticky;top:0;background:#F8FAFC;border-bottom:1px solid var(--line);padding:8px 10px;font-size:12.5px;z-index:1}
+.sch .h b{display:block;font-weight:600;font-size:13px;white-space:nowrap}
+.sch .tm{font-size:12px;color:var(--muted);padding:6px 8px;border-right:1px solid var(--line);border-bottom:1px solid var(--line-2);background:#FBFCFD;position:sticky;left:0}
+.sch .sl{border-bottom:1px solid var(--line-2);border-right:1px solid var(--line-2);padding:3px;min-height:46px}
+.ap{border-radius:6px;padding:5px 7px;font-size:12px;line-height:1.3;height:100%;border-left:3px solid var(--brand);background:var(--brand-50);cursor:pointer}
+.ap b{font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ap span{color:#4a5b6e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.ap.done{background:#EEF2F5;border-color:#9aa9b9;opacity:.8}
+.ap.now{background:var(--teal-50);border-color:var(--teal)}
+.ap.noshow{background:var(--bad-50);border-color:var(--bad)}
+.ap.lunch{background:repeating-linear-gradient(45deg,#f3f5f8,#f3f5f8 6px,#eceff3 6px,#eceff3 12px);border:0;color:var(--muted);display:grid;place-items:center;cursor:default}
+
+/* patient card drawer & modal */
+.ov{position:fixed;inset:0;background:rgba(16,41,75,.45);z-index:40;display:flex;justify-content:flex-end}
+.ov.center{justify-content:center;align-items:center;padding:16px}
+.drawer{width:min(560px,100%);background:#fff;height:100%;overflow:auto;padding-bottom:env(safe-area-inset-bottom,0px);animation:sl .2s ease}
+@keyframes sl{from{transform:translateX(30px);opacity:.4}}
+.modal{width:min(480px,100%);background:#fff;border-radius:14px;max-height:90vh;overflow:auto;animation:pp .16s ease}
+@keyframes pp{from{transform:scale(.97);opacity:.5}}
+.mh{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line-2);position:sticky;top:0;background:#fff;z-index:1}
+.mh h3{margin:0;font-size:16px;flex:1}
+.mb2{padding:18px}
+.mf{padding:14px 18px;border-top:1px solid var(--line-2);display:flex;gap:10px;justify-content:flex-end}
+.fld{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fld label{font-size:12.5px;color:var(--muted)}
+.fld input,.fld select,.fld textarea{border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:#fff;width:100%}
+.dl{display:grid;grid-template-columns:140px 1fr;gap:8px 12px;font-size:13.5px}
+.dl dt{color:var(--muted)}
+.dl dd{margin:0}
+.scale{display:flex;align-items:center;gap:10px;margin:8px 0}
+.scale .bar{flex:1;height:10px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;border-radius:10px;padding:11px 16px;z-index:60;display:flex;gap:10px;align-items:center;box-shadow:0 8px 24px rgba(16,41,75,.25);animation:pp .2s}
+.toast svg.i{color:#5fe0c5}
+.wa{background:#E7DED4;border-radius:10px;padding:14px;background-image:radial-gradient(#d9cfc3 1px,transparent 1px);background-size:14px 14px}
+.bub{background:#fff;border-radius:10px 10px 10px 2px;padding:9px 11px;max-width:320px;font-size:13px;box-shadow:0 1px 1px rgba(0,0,0,.08);margin-bottom:8px}
+.bub.me{background:#D9FDD3;border-radius:10px 10px 2px 10px;margin-left:auto}
+.bub .tm{display:block;text-align:right;font-size:10.5px;color:#7b8a7d;margin-top:3px}
+.stars{display:flex;gap:4px}
+.stars button{all:unset;cursor:pointer;color:#cfd6de}
+.stars button.on{color:#F2B01E}
+.stars svg.i{width:26px;height:26px;fill:currentColor;stroke:none}
+.pc-hero{background:linear-gradient(135deg,var(--brand),#0E8BA8);color:#fff;border-radius:14px;padding:18px}
+.pc-hero .bar{background:rgba(255,255,255,.25)}
+.pc-hero .bar i{background:#fff}
+.ring{position:relative;width:120px;height:120px}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:24px}
+.tl{position:relative;padding-left:22px}
+.tl:before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl .it{position:relative;padding:0 0 14px}
+.tl .it:before{content:"";position:absolute;left:-19px;top:5px;width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--brand)}
+.tl .it.done:before{background:var(--ok);border-color:var(--ok)}
+.tl .it.cur:before{background:var(--teal);border-color:var(--teal);box-shadow:0 0 0 4px var(--teal-50)}
+.qr{width:92px;height:92px;display:grid;grid-template-columns:repeat(11,1fr);gap:1px;background:#fff;padding:5px;border:1px solid var(--line);border-radius:8px}
+.qr i{background:var(--navy);border-radius:1px}
+.qr i.o{background:transparent}
+.sheet{position:fixed;left:0;right:0;bottom:0;background:#fff;border-radius:16px 16px 0 0;z-index:45;padding:10px 12px calc(14px + env(safe-area-inset-bottom,0px));animation:up .2s}
+@keyframes up{from{transform:translateY(40px);opacity:.5}}
+.sheet .grab{width:40px;height:4px;border-radius:3px;background:var(--line);margin:2px auto 10px}
+.sheet a,.sheet button.lk{all:unset;cursor:pointer;display:flex;align-items:center;gap:14px;padding:13px 12px;border-radius:10px;width:calc(100% - 24px)}
+.sheet a.on{background:var(--brand-50);color:var(--brand-d)}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1180px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.srch{display:none}}
+@media (max-width:980px){.g3,.g-2-1{grid-template-columns:1fr}}
+@media (max-width:860px){
+  .app,.app.col{grid-template-columns:1fr}
+  .side{display:none}
+  .main{height:auto;min-height:100%;overflow:visible;padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  .top{top:0;padding:0 14px;height:56px}
+  .top .mlogo{display:grid;width:32px;height:32px;border-radius:9px;background:var(--brand);place-items:center;flex:none}
+  .top h1{font-size:16.5px}
+  .today{display:none}
+  .content{padding:14px 14px 24px}
+  .g2{grid-template-columns:1fr}
+  .kpi .v{font-size:22px}
+  .bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;background:#fff;border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  .bnav a,.bnav button{all:unset;cursor:pointer;flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:var(--muted);padding:4px 2px;border-radius:10px;text-align:center;position:relative}
+  .bnav a.on{color:var(--brand)}
+  .bnav a.on svg.i{background:var(--brand-50);border-radius:12px;padding:3px 14px;width:22px;height:22px;box-sizing:content-box}
+  .bnav svg.i{width:22px;height:22px;padding:3px 14px;box-sizing:content-box}
+  .bnav .bd{position:absolute;top:0;right:calc(50% - 22px);background:var(--bad);color:#fff;font-size:10px;border-radius:10px;padding:0 5px;font-weight:600}
+  .dl{grid-template-columns:120px 1fr}
+  .kb{grid-template-columns:repeat(5,82%);scroll-snap-type:x mandatory}
+  .kc{scroll-snap-align:start;min-width:0}
+  .hide-m{display:none!important}
+  .sec-h .btn{padding:7px 11px}
+}
+@media (min-width:861px){.show-m{display:none!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+(function(){
+"use strict";
+/* ================= ICONS ================= */
+const IC={
+home:'M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
+bed:'M2 18V6M2 13h20v5M22 13v-1a3 3 0 0 0-3-3h-8v4M6.5 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
+grid:'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
+funnel:'M3 4h18l-7 8v6l-4 2v-8z',
+chart:'M4 20V11M10 20V5M16 20v-8M21 20H3',
+users:'M16 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1M9 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM22 19v-1a4 4 0 0 0-3-3.9M16 3.1a3.5 3.5 0 0 1 0 6.8',
+link:'M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1',
+star:'M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z',
+cal:'M3 6h18v15H3zM3 10h18M8 3v4M16 3v4',
+inbox:'M3 13h5l2 3h4l2-3h5M5 5h14l2 8v6H3v-6z',
+card:'M4 4h16v16H4zM9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM6 16c.5-2 1.7-3 3-3s2.5 1 3 3M14 9h4M14 13h4',
+door:'M3 21h18M5 21V4h10v17M15 8h4v13M11.5 12.5h.01',
+bell:'M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 20a2 2 0 0 0 4 0',
+wa:'M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.4A9 9 0 1 1 21 12zM9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-1.8-1.8l.8-1-1-2z',
+cash:'M2 6h20v12H2zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 9v.01M18 15v.01',
+wallet:'M20 7H5a2 2 0 0 1 0-4h13v4M3 5v14a2 2 0 0 0 2 2h15V7M16 14h.01',
+coins:'M9 8a6 3 0 1 0 12 0 6 3 0 1 0-12 0M9 8v4c0 1.7 2.7 3 6 3s6-1.3 6-3V8M3 13c0 1.7 2.7 3 6 3M3 13v4c0 1.7 2.7 3 6 3s6-1.3 6-3',
+list:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',
+box:'M21 8 12 3 3 8v8l9 5 9-5zM3 8l9 5 9-5M12 13v8',
+inn:'M12 3v12M6 9l6 6 6-6M4 21h16',
+outt:'M12 15V3M6 9l6-6 6 6M4 21h16',
+alert:'M12 3 2 20h20zM12 10v4M12 17h.01',
+pulse:'M3 12h4l3-8 4 16 3-8h4',
+clip:'M9 3h6v3H9zM7 5H5v16h14V5h-2M9 12h6M9 16h4',
+logout:'M15 3h5v18h-5M10 17l5-5-5-5M15 12H3',
+chev:'M15 18l-6-6 6-6',
+more:'M5 12h.01M12 12h.01M19 12h.01',
+search:'M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM21 21l-4.5-4.5',
+plus:'M12 5v14M5 12h14',
+x:'M6 6l12 12M18 6 6 18',
+check:'M5 12l5 5L20 7',
+pay:'M2 5h20v14H2zM2 10h20M6 15h4',
+heart:'M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6-8 11-8 11z',
+steth:'M6 3v6a4 4 0 0 0 8 0V3M10 13v3a5 5 0 0 0 10 0v-2M20 11a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z',
+phone:'M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z',
+globe:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18',
+insta:'M4 4h16v16H4zM12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM17.5 6.5h.01',
+pin:'M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12zM12 11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
+user:'M20 21v-1a5 5 0 0 0-5-5H9a5 5 0 0 0-5 5v1M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+send:'M22 2 11 13M22 2l-7 20-4-9-9-4z',
+clock:'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2',
+trend:'M3 17l6-6 4 4 8-8M15 7h6v6',
+lock:'M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4M12 15v2',
+};
+const ic=(n,c='')=>`<svg class="i ${c}" viewBox="0 0 24 24" aria-hidden="true"><path d="${IC[n]}"/></svg>`;
+const LOGO=`<svg width="22" height="22" viewBox="0 0 32 32"><path d="M8 8l8 16 8-16" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+/* ================= HELPERS ================= */
+let seed=20260922;
+const R=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const pick=a=>a[Math.floor(R()*a.length)];
+const ri=(a,b)=>a+Math.floor(R()*(b-a+1));
+const wpick=(arr)=>{const s=arr.reduce((a,x)=>a+x.w,0);let r=R()*s;for(const x of arr){if((r-=x.w)<0)return x}return arr[0]};
+const money=n=>Math.round(n).toLocaleString('ru-RU').replace(/,/g,' ')+'\u00a0₸';
+const mln=n=>(n/1e6).toFixed(1).replace('.',',')+'\u00a0млн\u00a0₸';
+const nf=n=>Math.round(n).toLocaleString('ru-RU');
+const TODAY=new Date(2026,8,22);
+const NOW_MIN=11*60+20;
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const dd=d=>String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0');
+const ddy=d=>dd(d)+'.'+d.getFullYear();
+const MON=['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+const tm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const initials=n=>n.split(' ').slice(0,2).map(s=>s[0]).join('');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+const phoneMask=()=>`+7 7${ri(0,7)}${ri(0,9)} *** ${ri(10,99)} ${ri(10,99)}`;
+
+/* ================= REAL CENTER DATA (victoria-med.kz) ================= */
+const CENTER={name:'Victoria',full:'Реабилитационный центр «Victoria»',org:'ТОО «Ортолайн»',addr:'г. Шымкент, ул. Гагарина, 93А',phone:'+7 771 017 80 80',beds:120,area:2540,land:3407,since:2021};
+const PH='https://victoria-med.kz/images/doctors/';
+const DOCS=[
+{id:'d0',n:'Токмурзаев Мурат Тулегенович',s:'Токмурзаев М.Т.',pos:'Медицинский директор',ph:'09',cl:false},
+{id:'d5',n:'Зима Наталья Борисовна',s:'Зима Н.Б.',pos:'Заведующая отделением, реабилитолог',ph:'03',cl:true},
+{id:'d1',n:'Амирханова Сая Орынбайкызы',s:'Амирханова С.О.',pos:'Реабилитолог, невропатолог',ph:'01',cl:true},
+{id:'d2',n:'Асылбеков Бағдат Рапбекович',s:'Асылбеков Б.Р.',pos:'Реабилитолог, травматолог',ph:'02',cl:true},
+{id:'d3',n:'Ахмедова Юлдуз Давлатовна',s:'Ахмедова Ю.Д.',pos:'Реабилитолог, эрготерапевт',ph:'04',cl:true},
+{id:'d4',n:'Джумабаев Ахмаджон Гайратбекович',s:'Джумабаев А.Г.',pos:'Врач реабилитолог',ph:'05',cl:true},
+{id:'d7',n:'Сарсенов Нурсултан Аблайханулы',s:'Сарсенов Н.А.',pos:'Реабилитолог, психиатр',ph:'07',cl:true},
+{id:'d6',n:'Ибраһим Фариза Нұрмаханқызы',s:'Ибраһим Ф.Н.',pos:'Врач-статистик',ph:'06',cl:false},
+{id:'d8',n:'Шаханова Шынар Жокеновна',s:'Шаханова Ш.Ж.',pos:'Врач-эксперт, служба поддержки',ph:'08',cl:false},
+];
+const SPECS=[
+{id:'s1',s:'Оразбаев Д.К.',pos:'Инструктор ЛФК',hall:'lfk1',rate:.3},
+{id:'s2',s:'Ким А.В.',pos:'Инструктор ЛФК',hall:'lfk2',rate:.3},
+{id:'s3',s:'Турсунов Р.М.',pos:'Массажист',hall:'mass',rate:.35},
+{id:'s4',s:'Байжанова Г.С.',pos:'Массажист',hall:'mass',rate:.35},
+{id:'s5',s:'Сейткали М.А.',pos:'Медсестра физиокабинета',hall:'physio',rate:.2},
+{id:'s6',s:'Иманова Л.Т.',pos:'Медсестра физиокабинета',hall:'physio',rate:.2},
+{id:'s7',s:'Ахметов Е.Б.',pos:'Инструктор механотерапии',hall:'mech',rate:.25},
+{id:'s8',s:'Нуржанова А.Е.',pos:'Инструктор гидрокинезотерапии',hall:'pool',rate:.3},
+];
+const HALLS=[
+{id:'mech',n:'Механотерапия',cap:8},{id:'physio',n:'Физиотерапия',cap:12},{id:'lfk1',n:'Зал ЛФК №1',cap:10},{id:'lfk2',n:'Зал ЛФК №2',cap:10},
+{id:'mass',n:'Массажные кабинеты',cap:6},{id:'pool',n:'Бассейн, СПА-зона',cap:8},{id:'ergo',n:'Эрготерапия',cap:4}];
+const HN=id=>(HALLS.find(h=>h.id===id)||{}).n;
+/* Прайс-лист ТОО «Ортолайн», 2025 */
+const PRICE=[
+['Приём','Консультация реабилитолога',8000],['Приём','Консультация невропатолога',8000],['Приём','Консультация травматолога-ортопеда',8000],['Приём','Консультация кардиолога',8000],['Приём','Консультация психотерапевта',8000],['Приём','Консультация заведующего отделением',10000],['Приём','Консультация повторная',3000],
+['Диагностика','ЭКГ',3000],['Диагностика','СМАД (суточное мониторирование АД)',8000],
+['Процедуры','Блокада',5000],['Процедуры','Внутрисуставное введение ЛС',2000],['Процедуры','Инфузия внутривенно капельно',1500],['Процедуры','Диспорт-терапия (1 ед.)',20000],['Процедуры','Плазмолифтинг (1 зона)',5000],
+['Физиотерапия','Электрофорез',2000,'physio'],['Физиотерапия','Амплипульстерапия',2000,'physio'],['Физиотерапия','Электростимуляция мышц',2000,'physio'],['Физиотерапия','УВЧ-терапия',2000,'physio'],['Физиотерапия','Магнитотерапия',1500,'physio'],['Физиотерапия','Лазеротерапия',5000,'physio'],['Физиотерапия','Ударно-волновая терапия',8000,'physio'],['Физиотерапия','Аппаратный лимфодренаж',5000,'physio'],['Физиотерапия','Парафинотерапия',2500,'physio'],['Физиотерапия','Озокеритолечение',2500,'physio'],['Физиотерапия','Ультразвуковая терапия',1500,'physio'],['Физиотерапия','Комплекс: УВТ + лазеротерапия',12000,'physio'],['Физиотерапия','Подводный душ-массаж',5000,'pool'],['Физиотерапия','Рефлексотерапия ИРТ',5100,'physio'],
+['Кинезотерапия','Кинезотерапия групповая',3000,'lfk1'],['Кинезотерапия','Кинезотерапия индивидуальная',6000,'lfk2'],['Кинезотерапия','Кинезотерапия активная нижней конечности',6000,'lfk1'],['Кинезотерапия','Обучение и коррекция ходьбы',6000,'lfk2'],['Кинезотерапия','Гидрокинезотерапия групповая, 40 мин',8000,'pool'],['Кинезотерапия','Гидрокинезотерапия индивидуальная, 40 мин',10000,'pool'],['Кинезотерапия','Дыхательная гимнастика',1500,'lfk1'],['Кинезотерапия','Тейпирование',5000,'lfk2'],
+['Эрготерапия','Занятие по эрготерапии',5000,'ergo'],['Эрготерапия','Бытовая адаптация (кухня, ванна, туалет)',5000,'ergo'],['Эрготерапия','Занятие с логопедом',5000,'ergo'],
+['Механотерапия','Механотерапия пассивная',3000,'mech'],['Механотерапия','Механотерапия активная',5000,'mech'],['Механотерапия','Вертикализация на подъёмном устройстве',10000,'mech'],
+['Массаж','Классический массаж всего тела',10000,'mass'],['Массаж','Массаж всего позвоночника',3000,'mass'],['Массаж','Массаж воротниковой зоны',1500,'mass'],['Массаж','Массаж нижней конечности',3000,'mass'],['Массаж','Массаж комбо, 3 зоны',5000,'mass'],
+['Стационар','Койко-день с 4-разовым питанием',12000],['Стационар','Койко-день без питания',10000],['Стационар','Индивидуальный уход, 9:00–18:00',15000],['Стационар','Индивидуальный уход круглосуточно',30000],
+].map(([g,n,p,h])=>({g,n,p,h}));
+const SV=n=>PRICE.find(x=>x.n===n);
+
+/* ================= DEMO DATA ================= */
+const MF=['Ерлан','Нурлан','Бауыржан','Серик','Асхат','Даурен','Марат','Алмас','Ержан','Руслан','Тимур','Айдос','Габит','Мурат','Олжас','Кайрат','Жандос','Сергей','Виктор','Алишер','Шерзод','Улугбек','Талгат','Ринат','Бахтияр'];
+const FF=['Айгуль','Гульнара','Жанар','Динара','Салтанат','Мадина','Алия','Самал','Асель','Гаухар','Раушан','Бибигуль','Назира','Елена','Ольга','Зарина','Дилноза','Меруерт','Айнур','Шолпан','Роза','Лаура'];
+const SUR=['Абдуллаев','Жумабеков','Сейтказиев','Нуртаев','Бекмуратов','Ахметов','Исмаилов','Оспанов','Тулегенов','Каримов','Мамытов','Есенов','Дуйсенбаев','Султанов','Рахимов','Жолдасов','Садыков','Юсупов','Акимов','Байтенов','Кожахметов','Турсынбаев','Ермеков','Шарипов','Муратов','Иванов','Алимов','Утепов','Кенжебаев','Сапаров'];
+const person=g=>{const s=pick(SUR);return `${g==='M'?s:s+'а'} ${g==='M'?pick(MF):pick(FF)} ${pick('АБГДЕЖКМНРСТШ'.split(''))}.`};
+const DIAG=[
+{c:'I69.3',n:'Последствия инфаркта мозга (ОНМК)',g:'neuro',w:6},{c:'I69.1',n:'Последствия внутримозгового кровоизлияния',g:'neuro',w:2},{c:'T90.5',n:'Последствия черепно-мозговой травмы',g:'neuro',w:1},{c:'G35',n:'Рассеянный склероз',g:'neuro',w:1},
+{c:'Z96.6',n:'Эндопротез тазобедренного сустава',g:'ortho',w:3},{c:'Z96.6',n:'Эндопротез коленного сустава',g:'ortho',w:2},{c:'S72.0',n:'Перелом шейки бедра, после остеосинтеза',g:'ortho',w:2},{c:'M17.0',n:'Двусторонний гонартроз',g:'ortho',w:1},
+{c:'T91.1',n:'Последствия перелома позвоночника',g:'spine',w:2},{c:'M51.1',n:'Грыжа межпозвонкового диска',g:'spine',w:2}];
+const COURSE={
+neuro:['Кинезотерапия индивидуальная','Механотерапия активная','Занятие по эрготерапии','Массаж всего позвоночника','Электростимуляция мышц','Вертикализация на подъёмном устройстве','Занятие с логопедом'],
+ortho:['Кинезотерапия активная нижней конечности','Механотерапия пассивная','Магнитотерапия','Аппаратный лимфодренаж','Гидрокинезотерапия индивидуальная, 40 мин','Массаж нижней конечности'],
+spine:['Кинезотерапия индивидуальная','Подводный душ-массаж','Амплипульстерапия','Массаж всего позвоночника','Лазеротерапия','Тейпирование']};
+const DOC_BY={neuro:['d1','d5','d4','d7','d1'],ortho:['d2','d2','d4','d2'],spine:['d2','d3','d3']};
+const GNAME={neuro:'Неврология',ortho:'Ортопедия',spine:'Позвоночник'};
+const SRC={
+'WhatsApp':{c:'#25A35A',i:'wa'},'Instagram':{c:'#C13584',i:'insta'},'Сайт':{c:'#0B6FB8',i:'globe'},'2ГИС':{c:'#6FAE2C',i:'pin'},'Звонок':{c:'#5E6E82',i:'phone'},'Направление':{c:'#6A5BD6',i:'link'}};
+const srcIco=s=>`<span class="src" style="background:${SRC[s].c}" title="${s}">${ic(SRC[s].i)}</span>`;
+
+const REFS=[
+{id:'r1',n:'Бекова Г.А.',org:'Городская поликлиника №5, невролог'},{id:'r2',n:'Саидов Ф.Р.',org:'Городская больница №1, травматолог'},
+{id:'r3',n:'Есенова М.К.',org:'Областная больница, нейрохирург'},{id:'r4',n:'Ким В.С.',org:'Ортопедическая клиника, хирург'},
+{id:'r5',n:'Абишев Н.Т.',org:'Инсультный центр, невролог'},{id:'r6',n:'Рахимова Д.Ж.',org:'Поликлиника №8, терапевт'},
+{id:'r7',n:'Жусупов К.Е.',org:'Частная клиника, ортопед'},{id:'r8',n:'Искакова А.Б.',org:'Поликлиника №3, ВОП'}];
+
+/* beds & patients */
+const PATIENTS=[];const BEDS=[];
+(function(){
+  const st=[];for(let i=0;i<104;i++)st.push('occ');for(let i=0;i<9;i++)st.push('free');for(let i=0;i<4;i++)st.push('bron');for(let i=0;i<3;i++)st.push('clean');
+  for(let i=st.length-1;i>0;i--){const j=Math.floor(R()*(i+1));[st[i],st[j]]=[st[j],st[i]]}
+  let k=0,pid=1;
+  for(let f=1;f<=3;f++)for(let r=1;r<=10;r++){
+    const room=f*100+r,g=(r%2)?'M':'F';
+    for(let b=1;b<=4;b++){
+      const s=st[k++];const bed={id:room+'-'+b,room,floor:f,b,s,g};
+      if(s==='occ'){
+        const d=wpick(DIAG);const doc=pick(DOC_BY[d.g]);const days=pick([14,14,21,21,10]);
+        let el=ri(0,days-1); if(pid<=5) el=days-1;
+        const admit=addD(TODAY,-el);
+        const procs=COURSE[d.g].slice(0,ri(4,6)).map(n=>{const s=SV(n);const tot=Math.max(5,Math.round(days*pick([1,1,.7,.5])));return{n,p:s.p,h:s.h,tot,done:Math.min(tot,Math.round(tot*el/days))}});
+        const stay=days*12000;const proc=procs.reduce((a,x)=>a+x.p*x.tot,0);const total=stay+proc;
+        const ps=pick(['ok','ok','ok','ok','part','part','debt']);
+        const paid=ps==='ok'?total:ps==='part'?Math.round(total*pick([.5,.6,.7])/1000)*1000:Math.round(total*pick([.2,.3])/1000)*1000;
+        const b0=d.g==='neuro'?ri(30,55):ri(50,70);
+        const p={id:'P'+String(1000+pid++),name:person(g),g,age:ri(26,81),d,doc,days,el,admit,dis:addD(admit,days),bed:bed.id,procs,total,paid,
+          bIn:b0,bNow:Math.min(100,b0+Math.round(el*(d.g==='neuro'?1.6:2.1))),vIn:ri(5,8),src:wpick([{v:'WhatsApp',w:3},{v:'Instagram',w:2},{v:'Сайт',w:2},{v:'2ГИС',w:1},{v:'Звонок',w:1},{v:'Направление',w:2}]).v,phone:phoneMask(),repeat:R()<.18};
+        p.vNow=Math.max(1,p.vIn-Math.round(el/4));
+        if(p.src==='Направление')p.ref=pick(REFS).id;
+        bed.p=p.id;PATIENTS.push(p);
+      }
+      BEDS.push(bed);
+    }
+  }
+})();
+const PT=id=>PATIENTS.find(p=>p.id===id);
+const DOC=id=>DOCS.find(d=>d.id===id)||SPECS.find(s=>s.id===id);
+/* the demo patient for patient role */
+const ME=PATIENTS.find(p=>p.g==='M'&&p.d.g==='ortho'&&p.el>=5&&p.el<=9)||PATIENTS.find(p=>p.g==='M'&&p.el>=4);
+ME.name='Оспанов Ерлан К.';ME.g='M';ME.age=58;ME.doc='d2';
+
+/* planned admissions */
+const BRON=[0,0,1,1,2,3].map((o,i)=>{const d=wpick(DIAG);const g=R()<.5?'M':'F';return{id:'B'+(i+1),name:person(g),g,age:ri(30,78),d,date:addD(TODAY,o),days:pick([14,21]),src:pick(Object.keys(SRC)),phone:phoneMask(),prepaid:pick([0,50000,100000,0])}});
+
+/* leads */
+const STAGES=[{id:'new',n:'Новая',c:'#0B6FB8'},{id:'cons',n:'Консультация',c:'#13A08F'},{id:'book',n:'Бронь',c:'#D98A0B'},{id:'hosp',n:'Госпитализирован',c:'#1C9A66'},{id:'lost',n:'Отказ',c:'#9aa9b9'}];
+const LEADS=[];
+(function(){
+  const reasons=['Реабилитация после инсульта','После эндопротезирования','После перелома','Боли в спине, грыжа','Восстановление ходьбы','Курс массажа и ЛФК','Реабилитация после ЧМТ','Узнать стоимость курса'];
+  const msgs={'WhatsApp':'Здравствуйте, сколько стоит курс на 14 дней?','Instagram':'Увидела ваш пост про бассейн, есть места?','Сайт':'Заявка с формы «Оставить заявку»','2ГИС':'Звонок из карточки 2ГИС','Звонок':'Входящий звонок, 2 мин 40 с','Направление':'Направление врача с QR-кодом'};
+  for(let i=0;i<46;i++){
+    const s=wpick([{v:'WhatsApp',w:30},{v:'Instagram',w:22},{v:'Сайт',w:20},{v:'2ГИС',w:10},{v:'Звонок',w:10},{v:'Направление',w:10}]).v;
+    const ago=i<9?0:ri(1,13);
+    const st=ago===0?(i<6?'new':pick(['new','cons'])):wpick([{v:'new',w:1},{v:'cons',w:3},{v:'book',w:2},{v:'hosp',w:4},{v:'lost',w:2}]).v;
+    const g=R()<.5?'M':'F';
+    LEADS.push({id:'L'+(500+i),name:person(g),src:s,st,reason:pick(reasons),msg:msgs[s],date:addD(TODAY,-ago),time:ago===0?tm(ri(8*60,11*60+15)):tm(ri(8*60,19*60)),phone:phoneMask(),ref:s==='Направление'?pick(REFS).id:null,mgr:pick(['Жаксылыкова А.','Сулейменова Д.']),sum:st==='hosp'||st==='book'?ri(22,48)*10000:0});
+  }
+  LEADS.sort((a,b)=>b.date-a.date||b.time.localeCompare(a.time));
+})();
+
+/* schedule today */
+const SLOTS=[];for(let m=9*60;m<13*60;m+=30)SLOTS.push(m);SLOTS.push('lunch');for(let m=14*60;m<17*60;m+=30)SLOTS.push(m);
+const APPTS=[];
+(function(){
+  const map={s1:['Кинезотерапия групповая','Дыхательная гимнастика','Кинезотерапия активная нижней конечности'],s2:['Кинезотерапия индивидуальная','Обучение и коррекция ходьбы','Тейпирование'],s3:['Массаж всего позвоночника','Массаж нижней конечности','Классический массаж всего тела'],s4:['Массаж комбо, 3 зоны','Массаж воротниковой зоны','Массаж всего позвоночника'],s5:['Магнитотерапия','Электрофорез','Амплипульстерапия','Лазеротерапия'],s6:['Аппаратный лимфодренаж','Электростимуляция мышц','Ударно-волновая терапия'],s7:['Механотерапия активная','Механотерапия пассивная','Вертикализация на подъёмном устройстве'],s8:['Гидрокинезотерапия индивидуальная, 40 мин','Подводный душ-массаж'],d3:['Занятие по эрготерапии','Бытовая адаптация (кухня, ванна, туалет)'],d2:['Консультация травматолога-ортопеда','Консультация повторная','Блокада']};
+  let id=1;
+  for(const [who,svs] of Object.entries(map)){
+    for(const m of SLOTS){ if(m==='lunch')continue; if(R()<.14)continue;
+      const out=R()<.22; const p=out?null:pick(PATIENTS);
+      const name=out?person(R()<.5?'M':'F'):p.name;
+      let st=m+30<=NOW_MIN?'done':(m<=NOW_MIN?'now':'plan');
+      if(st==='done'&&out&&R()<.35)st='noshow';
+      const s=pick(svs);
+      APPTS.push({id:'A'+id++,who,m,name,pid:p?p.id:null,out,sv:s,h:(SV(s).h)||'physio',st,conf:st==='plan'?(R()<.82):true});
+    }
+  }
+  if(!APPTS.some(a=>a.pid===ME.id)){[9*60+30,10*60+30,14*60,15*60].forEach((m,i)=>{const pr=ME.procs[i%ME.procs.length];const HW={lfk1:'s1',lfk2:'s2',mass:'s3',physio:'s5',mech:'s7',pool:'s8',ergo:'d3'};APPTS.push({id:'A'+id++,who:HW[pr.h]||'s5',m,name:ME.name,pid:ME.id,out:false,sv:pr.n,h:pr.h,st:m+30<=NOW_MIN?'done':'plan',conf:true})})}
+})();
+const WHO=id=>DOC(id);
+
+/* payments today */
+const PAYS=[];
+(function(){for(let i=0;i<19;i++){const p=pick(PATIENTS);const kind=pick(['Курс реабилитации','Доплата за курс','Консультация','Процедуры','Предоплата (бронь)']);const sum=kind==='Консультация'?8000:kind==='Процедуры'?ri(3,12)*2500:ri(8,30)*10000;PAYS.push({id:'Ч-'+(2140+i),t:tm(ri(9*60,11*60+15)),name:kind==='Консультация'?person('F'):p.name,kind,sum,m:wpick([{v:'Kaspi QR',w:5},{v:'Карта',w:3},{v:'Наличные',w:2},{v:'Перевод',w:1}]).v,cashier:pick(['Жаксылыкова А.','Сулейменова Д.'])})}PAYS.sort((a,b)=>b.t.localeCompare(a.t))})();
+
+/* stock */
+const STOCK=[
+['Гель для УЗ-терапии','кг',14,10,.9,'Физиотерапия'],['Электроды многоразовые','пара',48,30,1.2,'Физиотерапия'],['Парафин косметический','кг',9,15,1.6,'Физиотерапия'],['Озокерит','кг',22,12,.8,'Физиотерапия'],
+['Тейпы кинезио 5 см','рулон',6,10,.7,'Кинезотерапия'],['Масло массажное','л',11,8,.9,'Массаж'],['Тальк','кг',5,4,.2,'Массаж'],['Простыни одноразовые','шт',860,500,62,'Общие'],
+['Перчатки нитриловые','пара',1450,800,95,'Общие'],['Бахилы','пара',2100,1000,140,'Общие'],['Спирт этиловый 70%','л',18,10,.7,'Процедурный'],['Шприц 5 мл','шт',640,300,28,'Процедурный'],
+['Система для инфузий','шт',180,120,9,'Процедурный'],['Диспорт 500 ЕД','фл',3,4,.1,'Процедурный'],['Хлоргексидин 0,05%','фл',42,30,2.5,'Процедурный'],['Полотенца бумажные','уп',64,40,4,'Общие'],
+['Хлор для бассейна','кг',26,20,1.1,'Бассейн'],['pH-корректор','л',8,6,.3,'Бассейн'],['Салфетки дезинфицирующие','уп',38,25,3,'Общие'],['Пелёнки впитывающие','шт',310,400,26,'Стационар']
+].map(([n,u,q,min,use,cat],i)=>({id:'M'+(i+1),n,u,q,min,use,cat,price:ri(3,40)*100}));
+const INC=[{d:addD(TODAY,-1),doc:'Накладная №418',sup:'ТОО «МедСнаб Юг»',items:6,sum:386400,who:'Байсеитов Н.'},{d:addD(TODAY,-3),doc:'Накладная №1127',sup:'ТОО «Фармация Шымкент»',items:4,sum:214900,who:'Байсеитов Н.'},{d:addD(TODAY,-6),doc:'Накладная №77',sup:'ИП «АкваСервис»',items:2,sum:96000,who:'Байсеитов Н.'},{d:addD(TODAY,-9),doc:'Накладная №402',sup:'ТОО «МедСнаб Юг»',items:9,sum:512300,who:'Байсеитов Н.'}];
+const WOFF=[
+{t:'11:10',n:'Парафин косметический',q:'0,3 кг',why:'Парафинотерапия, 1 процедура',auto:true},{t:'11:02',n:'Простыни одноразовые',q:'4 шт',why:'Массаж, 4 процедуры',auto:true},
+{t:'10:40',n:'Гель для УЗ-терапии',q:'0,05 кг',why:'Ультразвуковая терапия, 2 процедуры',auto:true},{t:'10:30',n:'Тейпы кинезио 5 см',q:'0,5 рулона',why:'Тейпирование, 2 процедуры',auto:true},
+{t:'10:05',n:'Масло массажное',q:'0,12 л',why:'Массаж, 6 процедур',auto:true},{t:'09:40',n:'Хлор для бассейна',q:'1,2 кг',why:'Ежедневная обработка бассейна',auto:false},
+{t:'09:15',n:'Перчатки нитриловые',q:'40 пар',why:'Выдача в процедурный кабинет',auto:false}];
+
+/* months */
+const MONTHS=[];for(let i=11;i>=0;i--){const d=new Date(2026,8-i,1);MONTHS.push({l:MON[d.getMonth()],rev:Math.round((41+ (11-i)*1.35 + (R()*3-1.5))*1e6),occ:Math.round(72+(11-i)*1.3+R()*3),ns:Math.max(4,Math.round(15-(i<4?(4-i)*2.4:0)-R()))})}
+const ADS=[{s:'Instagram',spend:420000,leads:74,hosp:19,rev:6840000},{s:'Сайт',spend:180000,leads:61,hosp:17,rev:6120000},{s:'2ГИС',spend:95000,leads:28,hosp:8,rev:2880000},{s:'WhatsApp',spend:0,leads:96,hosp:31,rev:11160000},{s:'Направление',spend:260000,leads:33,hosp:21,rev:7560000},{s:'Звонок',spend:0,leads:30,hosp:9,rev:3240000}];
+
+/* surveys */
+const SURV={nps:74,n:86,cats:[['Врачи',4.9],['Процедуры и занятия',4.8],['Отношение персонала',4.8],['Чистота',4.7],['Доступность для маломобильных',4.9],['Питание',4.3]],
+list:[{n:'Садыкова Гульнара Т.',s:5,d:addD(TODAY,-1),t:'Мама после инсульта начала сама вставать с кровати. Отдельное спасибо эрготерапевту и инструкторам ЛФК.'},{n:'Ермеков Кайрат Б.',s:5,d:addD(TODAY,-1),t:'После эндопротеза прошёл курс за 14 дней, хожу без костылей. Бассейн — лучшее, что было.'},{n:'Иванова Ольга Н.',s:4,d:addD(TODAY,-2),t:'Процедуры отличные, питание можно разнообразить.'},{n:'Жолдасов Марат С.',s:5,d:addD(TODAY,-3),t:'Удобно, что расписание процедур приходит в WhatsApp накануне.'},{n:'Утепова Айнур Р.',s:3,d:addD(TODAY,-4),t:'Долго ждали лифт в час пик между процедурами.'}]};
+
+/* notifications / reminders */
+const REM=[
+{t:'Завтра, 08:00',k:'Расписание процедур на завтра',to:'Пациенты стационара',n:98,st:'plan'},
+{t:'Сегодня, 18:00',k:'Напоминание о записи на завтра',to:'Амбулаторные пациенты',n:23,st:'plan'},
+{t:'Сегодня, 10:00',k:'Подготовка к выписке',to:'Выписка 23.09',n:6,st:'sent',rd:6,ok:6},
+{t:'Сегодня, 09:00',k:'Подтверждение госпитализации',to:'Бронь на 22–25.09',n:6,st:'sent',rd:5,ok:4},
+{t:'Вчера, 18:00',k:'Напоминание о записи на сегодня',to:'Амбулаторные пациенты',n:27,st:'sent',rd:25,ok:22},
+{t:'Вчера, 12:00',k:'Остаток к оплате по курсу',to:'Пациенты с долгом',n:14,st:'sent',rd:12,ok:7},
+{t:'19.09, 11:00',k:'Опрос качества после выписки',to:'Выписанные за неделю',n:19,st:'sent',rd:17,ok:15}];
+
+/* ================= STATE / ROUTING ================= */
+const ROLES={
+glav:{t:'Главврач',u:'d0',c:'#0B6FB8',bg:'#E7F1FA',i:'steth',d:'Вся клиника в цифрах',tags:['Дашборд','Коечный фонд','Отчёты','Рефералы','Отзывы'],menu:['dash','beds','halls','funnel','reports','referrals','surveys','staff']},
+doctor:{t:'Врач',u:'d2',c:'#13A08F',bg:'#E3F5F2',i:'clip',d:'Только свои пациенты',tags:['Мои пациенты','Назначения','Расписание'],menu:['mypat','presc','mysched']},
+reg:{t:'Регистратура',u:null,un:'Жаксылыкова Айгерим',us:'Жаксылыкова А.',up:'Администратор регистратуры',c:'#D98A0B',bg:'#FCF1DC',i:'inbox',d:'Заявки, запись, койки',tags:['Заявки','Воронка','Запись','Госпитализация','WhatsApp'],menu:['leads','funnel','sched','patients','hosp','beds','remind']},
+buh:{t:'Бухгалтерия',u:null,un:'Сапарова Динара',us:'Сапарова Д.',up:'Главный бухгалтер',c:'#6A5BD6',bg:'#EEEBFB',i:'coins',d:'Деньги и зарплата',tags:['Касса','Долги','Зарплата','Прайс','Выручка'],menu:['cash','debts','salary','price','revenue']},
+sklad:{t:'Завсклад',u:null,un:'Байсеитов Нурбол',us:'Байсеитов Н.',up:'Заведующий складом',c:'#1C9A66',bg:'#E3F4EC',i:'box',d:'Расходники и остатки',tags:['Остатки','Приход','Списание','Мин. остатки'],menu:['stock','income','woff','low']},
+patient:{t:'Пациент',u:'ME',c:'#C13584',bg:'#FBE9F3',i:'user',d:'Личный кабинет',tags:['Мой курс','Расписание','Оплаты','Отзыв'],menu:['pcourse','psched','ppay','pnotif','psurvey']}};
+const ruser=r=>{const R_=ROLES[r];if(R_.u==='ME')return{n:ME.name,s:ME.name,pos:'Палата '+ME.bed.split('-')[0]};if(R_.u){const d=DOC(R_.u);return{n:d.n,s:d.s,pos:d.pos,ph:d.ph}}return{n:R_.un,s:R_.us,pos:R_.up}};
+const S={role:null,page:null,col:false};
+try{S.col=localStorage.getItem('vc_col')==='1'}catch(e){}
+const lowCount=()=>STOCK.filter(x=>x.q<x.min).length;
+const newLeads=()=>LEADS.filter(l=>l.st==='new').length;
+const debtCount=()=>PATIENTS.filter(p=>p.total-p.paid>0).length;
+
+const av=(name,ph,cls='')=>`<span class="av ${cls}">${esc(initials(name))}${ph?`<img src="${PH}${ph}.jpg" alt="" loading="lazy" onerror="this.remove()">`:''}</span>`;
+const docAv=(id,cls='sm')=>{const d=DOC(id);return av(d.s,d.ph,cls)};
+
+/* ================= CHARTS ================= */
+function barChart(vals,labels,o={}){
+  const W=640,H=o.h||220,pl=44,pb=26,pt=12,max=(o.max||Math.max(...vals))*1.1,n=vals.length,bw=(W-pl-10)/n;
+  let g='';for(let k=0;k<=4;k++){const y=pt+(H-pt-pb)*k/4;const v=max*(1-k/4);g+=`<line x1="${pl}" x2="${W}" y1="${y}" y2="${y}" stroke="#E6EBF1"/><text x="${pl-8}" y="${y+4}" text-anchor="end">${o.fmt?o.fmt(v):nf(v)}</text>`}
+  vals.forEach((v,i)=>{const h=(H-pt-pb)*v/max,x=pl+i*bw+bw*.18,y=H-pb-h;g+=`<rect x="${x}" y="${y}" width="${bw*.64}" height="${h}" rx="4" fill="${i===n-1?(o.hl||'#0B6FB8'):(o.c||'#9CC5E8')}"/><text x="${x+bw*.32}" y="${H-8}" text-anchor="middle">${labels[i]}</text>`});
+  return `<svg class="ch" viewBox="0 0 ${W} ${H}" role="img">${g}</svg>`;
+}
+function lineChart(series,labels,o={}){
+  const W=640,H=o.h||200,pl=40,pb=26,pt=14;const all=series.flatMap(s=>s.v);const max=o.max||Math.max(...all)*1.1,min=o.min??0;const n=labels.length;const X=i=>pl+(W-pl-14)*i/(n-1),Y=v=>pt+(H-pt-pb)*(1-(v-min)/(max-min));
+  let g='';for(let k=0;k<=4;k++){const v=min+(max-min)*k/4,y=Y(v);g+=`<line x1="${pl}" x2="${W}" y1="${y}" y2="${y}" stroke="#E6EBF1"/><text x="${pl-8}" y="${y+4}" text-anchor="end">${Math.round(v)}${o.u||''}</text>`}
+  labels.forEach((l,i)=>{if(n<=12||i%2===0)g+=`<text x="${X(i)}" y="${H-8}" text-anchor="middle">${l}</text>`});
+  series.forEach(s=>{const pts=s.v.map((v,i)=>`${X(i)},${Y(v)}`).join(' ');if(s.fill)g+=`<polygon points="${X(0)},${Y(min)} ${pts} ${X(n-1)},${Y(min)}" fill="${s.c}" opacity=".1"/>`;g+=`<polyline points="${pts}" fill="none" stroke="${s.c}" stroke-width="2.5" stroke-linejoin="round"/>`;s.v.forEach((v,i)=>{if(i===n-1)g+=`<circle cx="${X(i)}" cy="${Y(v)}" r="4.5" fill="#fff" stroke="${s.c}" stroke-width="2.5"/>`})});
+  return `<svg class="ch" viewBox="0 0 ${W} ${H}" role="img">${g}</svg>`;
+}
+function donut(parts,o={}){
+  const tot=parts.reduce((a,p)=>a+p.v,0);let a=-Math.PI/2,g='';const r=54,cx=70,cy=70;
+  parts.forEach(p=>{const da=p.v/tot*Math.PI*2;const x1=cx+r*Math.cos(a),y1=cy+r*Math.sin(a);a+=da;const x2=cx+r*Math.cos(a),y2=cy+r*Math.sin(a);g+=`<path d="M${x1} ${y1} A${r} ${r} 0 ${da>Math.PI?1:0} 1 ${x2} ${y2}" fill="none" stroke="${p.c}" stroke-width="22"/>`});
+  return `<div class="row" style="gap:18px;flex-wrap:nowrap"><svg viewBox="0 0 140 140" width="140" height="140" style="flex:none">${g}<text x="70" y="66" text-anchor="middle" font-size="12" fill="#667789" font-family="Golos Text">${o.t||''}</text><text x="70" y="86" text-anchor="middle" font-size="17" font-weight="700" fill="#18283A" font-family="Golos Text">${o.v||''}</text></svg><div style="display:grid;gap:8px;font-size:13px;min-width:0">${parts.map(p=>`<div class="row" style="gap:8px;flex-wrap:nowrap"><i style="width:10px;height:10px;border-radius:3px;background:${p.c};flex:none"></i><span style="flex:1">${p.l}</span><b class="num">${o.f?o.f(p.v):pct(p.v,tot)+'%'}</b></div>`).join('')}</div></div>`;
+}
+const ring=(v,c='#0B6FB8',label='')=>{const r=48,C=2*Math.PI*r;return `<div class="ring"><svg viewBox="0 0 120 120" width="120" height="120"><circle cx="60" cy="60" r="${r}" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="12"/><circle cx="60" cy="60" r="${r}" fill="none" stroke="${c}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C*v/100} ${C}" transform="rotate(-90 60 60)"/></svg><b>${label}</b></div>`};
+
+/* ================= PAGES ================= */
+const kpi=(l,v,d,i,cls='up')=>`<div class="card kpi"><div class="l"><span class="ic">${ic(i)}</span>${l}</div><div class="v num">${v}</div><div class="d ${cls}">${d}</div></div>`;
+const bedStats=()=>{const c={occ:0,free:0,bron:0,clean:0};BEDS.forEach(b=>c[b.s]++);return c};
+const hallLoad=()=>{const hours=[9,10,11,12,14,15,16];return HALLS.map(h=>({h,v:hours.map((hr,i)=>{let base={mech:78,physio:84,lfk1:72,lfk2:80,mass:92,pool:66,ergo:70}[h.id];if(hr===12||hr===16)base-=18;if(hr===10||hr===11)base+=10;return Math.max(20,Math.min(100,base+ri(-8,8)))})}))};
+const HL=hallLoad();
+const hmColor=v=>v>=90?['#0B6FB8','#fff']:v>=75?['#5A9FD6','#fff']:v>=55?['#B7D6EF','#0c3d66']:['#E7F1FA','#5a7690'];
+
+const P={};
+P.dash={t:'Дашборд',i:'home',r(){
+  const b=bedStats();const occ=pct(b.occ,120);const leadsM=322,conv=33;const rev=MONTHS[11].rev;
+  const avgHall=Math.round(HL.flatMap(x=>x.v).reduce((a,c)=>a+c,0)/(HL.length*7));
+  return `<div class="sec-h"><div><p>${CENTER.full} · сентябрь 2026</p></div><div class="sp"></div><div class="chips hide-m"><button class="chip">Неделя</button><button class="chip on">Месяц</button><button class="chip">Квартал</button></div></div>
+  <div class="grid g4 mb">
+   ${kpi('Заявки за месяц',nf(leadsM),'▲ 24% к августу','inbox')}
+   ${kpi('Конверсия в госпитализацию',conv+'%','▲ 7 п.п. к августу','funnel')}
+   ${kpi('Неявки на процедуры',MONTHS[11].ns+'%','▼ с 15% до '+MONTHS[11].ns+'% за 4 месяца','bell')}
+   ${kpi('Выручка за месяц',mln(rev),'▲ 9% к августу','cash')}
+   ${kpi('Загрузка коек',occ+'%',b.occ+' из 120 · свободно '+b.free,'bed','muted')}
+   ${kpi('Загрузка залов',avgHall+'%','7 залов, среднее за день','grid','muted')}
+   ${kpi('Окупаемость рекламы','×'+(ADS.reduce((a,x)=>a+x.rev,0)/ADS.reduce((a,x)=>a+x.spend,0)).toFixed(0),'на 1 ₸ рекламы — '+Math.round(ADS.reduce((a,x)=>a+x.rev,0)/ADS.reduce((a,x)=>a+x.spend,0))+' ₸ выручки','trend')}
+   ${kpi('Повторные обращения','18%','▲ 5 п.п. за полгода','heart')}
+  </div>
+  <div class="grid g-2-1 mb">
+   <div class="card"><div class="hd"><h3>Выручка по месяцам</h3><div class="sp"></div><span class="muted small">млн ₸</span></div><div class="bd">${barChart(MONTHS.map(m=>m.rev/1e6),MONTHS.map(m=>m.l),{fmt:v=>v.toFixed(0)})}</div></div>
+   <div class="card"><div class="hd"><h3>Коечный фонд сейчас</h3><div class="sp"></div><a class="btn sm gh" href="#glav/beds">Схема</a></div><div class="bd">${donut([{l:'Заняты',v:b.occ,c:'#0B6FB8'},{l:'Свободны',v:b.free,c:'#1C9A66'},{l:'Бронь',v:b.bron,c:'#D98A0B'},{l:'Уборка',v:b.clean,c:'#B8C3CF'}],{t:'занято',v:occ+'%',f:v=>v})}
+    <div style="margin-top:16px;display:grid;gap:8px" class="small">${['neuro','ortho','spine'].map(g=>{const n=PATIENTS.filter(p=>p.d.g===g).length;return `<div class="row" style="flex-wrap:nowrap"><span style="width:92px">${GNAME[g]}</span><div class="bar" style="flex:1"><i style="width:${pct(n,b.occ)}%"></i></div><b class="num">${n}</b></div>`}).join('')}</div></div></div>
+  </div>
+  <div class="grid g3">
+   <div class="card"><div class="hd"><h3>Загрузка залов сейчас</h3></div><div class="bd p0">${HL.map(x=>`<div class="list-i"><div class="gr"><b>${x.h.n}</b><div class="bar teal" style="margin-top:6px"><i style="width:${x.v[2]}%"></i></div></div><b class="num">${x.v[2]}%</b></div>`).join('')}</div></div>
+   <div class="card"><div class="hd"><h3>Требует внимания</h3></div><div class="bd p0">
+     <a class="list-i" href="#glav/funnel" style="text-decoration:none;color:inherit"><span class="src" style="background:var(--brand)">${ic('inbox')}</span><div class="gr"><b>${newLeads()} новых заявок без ответа</b><small class="muted">Регистратура, среднее время ответа 6 мин</small></div></a>
+     <div class="list-i"><span class="src" style="background:var(--bad)">${ic('wallet')}</span><div class="gr"><b>${debtCount()} пациентов с остатком к оплате</b><small class="muted">На сумму ${mln(PATIENTS.reduce((a,p)=>a+p.total-p.paid,0))}</small></div></div>
+     <div class="list-i"><span class="src" style="background:var(--warn)">${ic('box')}</span><div class="gr"><b>${lowCount()} позиции ниже минимума</b><small class="muted">Парафин, тейпы, диспорт, пелёнки</small></div></div>
+     <div class="list-i"><span class="src" style="background:var(--teal)">${ic('door')}</span><div class="gr"><b>${PATIENTS.filter(p=>p.el===p.days-1).length} выписки завтра · ${BRON.filter(x=>x.date<=TODAY).length} поступления сегодня</b><small class="muted">Койки распределены</small></div></div>
+     <div class="list-i"><span class="src" style="background:#F2B01E">${ic('star')}</span><div class="gr"><b>Индекс лояльности ${SURV.nps}</b><small class="muted">${SURV.n} ответов за месяц</small></div></div>
+   </div></div>
+   <div class="card"><div class="hd"><h3>Заявки по источникам</h3><div class="sp"></div><span class="muted small">сентябрь</span></div><div class="bd">${donut(ADS.map(a=>({l:a.s,v:a.leads,c:SRC[a.s].c})),{t:'заявок',v:ADS.reduce((a,x)=>a+x.leads,0)})}</div></div>
+  </div>`}};
+
+P.beds={t:'Коечный фонд',i:'bed',r(){
+  const b=bedStats();
+  return `<div class="sec-h"><div class="legend"><span><i style="background:var(--brand)"></i>Занята, мужчины</span><span><i style="background:#8C5BC9"></i>Занята, женщины</span><span><i style="background:var(--ok-50);border:1px dashed #86cbac"></i>Свободна</span><span><i style="background:var(--warn-50)"></i>Бронь</span><span><i style="background:#E9EDF2"></i>Уборка</span></div><div class="sp"></div>${S.role==='reg'?`<a class="btn pr" href="#reg/hosp">${ic('plus')}Госпитализировать</a>`:''}</div>
+  <div class="grid g4 mb">${kpi('Занято',b.occ,pct(b.occ,120)+'% фонда','bed','muted')}${kpi('Свободно',b.free,'можно принять сегодня','check','up')}${kpi('Бронь',b.bron,'поступление 22–25.09','cal','muted')}${kpi('Выписка завтра',PATIENTS.filter(p=>p.el===p.days-1).length,'освободятся койки','door','muted')}</div>
+  <div class="card"><div class="bd floors">${[1,2,3].map(f=>`<div class="floor"><h4>${f} этаж · палаты ${f}01–${f}10</h4><div class="rooms">${BEDS.filter(x=>x.floor===f&&x.b===1).map(r=>`<div class="room"><div class="rn"><b>№ ${r.room}</b><span>${r.g==='M'?'муж.':'жен.'}</span></div><div class="beds">${BEDS.filter(x=>x.room===r.room).map(x=>{const p=x.p?PT(x.p):null;return `<button class="bed ${x.s} ${p&&p.g==='F'?'f':''}" data-a="${p?'pt':'bed'}" data-id="${p?p.id:x.id}" title="${p?esc(p.name)+' · до '+dd(p.dis):({free:'Свободна',bron:'Бронь',clean:'Уборка'}[x.s])}">${x.b}</button>`}).join('')}</div></div>`).join('')}</div></div>`).join('')}</div></div>`}};
+
+P.halls={t:'Загрузка залов',i:'grid',r(){
+  const hrs=['9:00','10:00','11:00','12:00','14:00','15:00','16:00'];
+  return `<div class="sec-h"><p>Сегодня, ${ddy(TODAY)} · обед 13:00–14:00 · суббота 9:00–13:00</p><div class="sp"></div><div class="legend"><span><i style="background:#E7F1FA"></i>до 55%</span><span><i style="background:#B7D6EF"></i>55–75%</span><span><i style="background:#5A9FD6"></i>75–90%</span><span><i style="background:#0B6FB8"></i>90%+</span></div></div>
+  <div class="card mb"><div class="bd tw"><div class="hm" style="grid-template-columns:170px repeat(7,minmax(56px,1fr));min-width:600px"><div></div>${hrs.map(h=>`<div class="th">${h}</div>`).join('')}${HL.map(x=>`<div class="lb">${x.h.n}</div>${x.v.map(v=>{const [bg,fg]=hmColor(v);return `<div class="c num" style="background:${bg};color:${fg}">${v}%</div>`}).join('')}`).join('')}</div></div></div>
+  <div class="grid g3">${HL.map(x=>{const avg=Math.round(x.v.reduce((a,c)=>a+c,0)/7);const sessions=Math.round(x.h.cap*7*avg/100);return `<div class="card"><div class="hd"><h3>${x.h.n}</h3><div class="sp"></div><span class="bdg ${avg>=85?'warn':'ok'}">${avg>=85?'Высокая загрузка':'Есть окна'}</span></div><div class="bd"><div class="row" style="justify-content:space-between"><span class="muted">Мест одновременно</span><b>${x.h.cap}</b></div><div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted">Сеансов сегодня</span><b class="num">${sessions}</b></div><div class="row" style="justify-content:space-between;margin-top:6px"><span class="muted">Средняя загрузка</span><b class="num">${avg}%</b></div><div class="bar teal" style="margin-top:10px"><i style="width:${avg}%"></i></div></div></div>`}).join('')}</div>`}};
+
+P.funnel={t:'Воронка заявок',i:'funnel',r(){
+  return `<div class="sec-h"><div class="chips"><button class="chip on">Все источники</button>${Object.keys(SRC).map(s=>`<button class="chip hide-m">${s}</button>`).join('')}</div><div class="sp"></div>${S.role==='reg'?`<button class="btn pr" data-a="newlead">${ic('plus')}Заявка</button>`:''}</div>
+  <div class="grid g4 mb">${STAGES.slice(0,4).map((s,i)=>{const n=LEADS.filter(l=>l.st===s.id).length;return `<div class="card kpi"><div class="l"><i style="width:9px;height:9px;border-radius:50%;background:${s.c}"></i>${s.n}</div><div class="v num">${n}</div><div class="d muted">${i===3?'сумма '+mln(LEADS.filter(l=>l.st==='hosp').reduce((a,l)=>a+l.sum,0)):''+pct(n,LEADS.length)+'% заявок'}</div></div>`}).join('')}</div>
+  <div class="kb">${STAGES.map(s=>{const ls=LEADS.filter(l=>l.st===s.id);return `<div class="kc"><div class="kh"><i style="background:${s.c}"></i>${s.n}<span class="n">${ls.length}</span></div>${ls.slice(0,7).map(l=>`<div class="lc"><div class="tp">${srcIco(l.src)}<b>${esc(l.name)}</b></div><div class="ds">${esc(l.reason)}${l.sum?' · '+money(l.sum):''}</div><div class="ft"><span class="muted small">${l.date.getTime()===TODAY.getTime()?'Сегодня':dd(l.date)}, ${l.time}</span>${s.id!=='hosp'&&s.id!=='lost'?`<button class="btn sm" data-a="next" data-id="${l.id}">Дальше</button>`:''}</div></div>`).join('')}${ls.length>7?`<div class="muted small" style="padding:4px 6px">ещё ${ls.length-7}</div>`:''}</div>`}).join('')}</div>`}};
+
+P.reports={t:'Отчёты и аналитика',i:'chart',r(){
+  const groups={};PRICE.forEach(()=>{});const gp=[{l:'Стационар',v:52,c:'#0B6FB8'},{l:'Кинезотерапия',v:16,c:'#13A08F'},{l:'Физиотерапия',v:11,c:'#6A5BD6'},{l:'Массаж',v:9,c:'#D98A0B'},{l:'Механо- и эрготерапия',v:8,c:'#C13584'},{l:'Приём и диагностика',v:4,c:'#9aa9b9'}];
+  return `<div class="sec-h"><p>Октябрь 2025 — сентябрь 2026</p><div class="sp"></div><button class="btn" data-a="toast" data-m="Отчёт выгружен в Excel">${ic('inn')}Выгрузить в Excel</button></div>
+  <div class="grid g2 mb">
+   <div class="card"><div class="hd"><h3>Загрузка коек, %</h3></div><div class="bd">${lineChart([{v:MONTHS.map(m=>m.occ),c:'#0B6FB8',fill:1}],MONTHS.map(m=>m.l),{min:60,max:100,u:'%'})}</div></div>
+   <div class="card"><div class="hd"><h3>Неявки на процедуры, %</h3><div class="sp"></div><span class="bdg ok">Напоминания в WhatsApp с мая</span></div><div class="bd">${lineChart([{v:MONTHS.map(m=>m.ns),c:'#D2433F',fill:1}],MONTHS.map(m=>m.l),{min:0,max:20,u:'%'})}</div></div>
+  </div>
+  <div class="grid g-2-1 mb">
+   <div class="card"><div class="hd"><h3>Эффективность рекламы</h3><div class="sp"></div><span class="muted small">сентябрь</span></div><div class="bd p0 tw"><table class="t"><thead><tr><th>Источник</th><th class="r">Расход</th><th class="r">Заявки</th><th class="r">Госпит.</th><th class="r">Конверсия</th><th class="r">Выручка</th><th class="r">Цена пациента</th></tr></thead><tbody>${ADS.map(a=>`<tr><td><div class="who">${srcIco(a.s)}<b>${a.s}</b></div></td><td class="r num">${a.spend?money(a.spend):'—'}</td><td class="r num">${a.leads}</td><td class="r num">${a.hosp}</td><td class="r num">${pct(a.hosp,a.leads)}%</td><td class="r num">${mln(a.rev)}</td><td class="r num">${a.spend?money(a.spend/a.hosp):'—'}</td></tr>`).join('')}</tbody></table></div></div>
+   <div class="card"><div class="hd"><h3>Структура выручки</h3></div><div class="bd">${donut(gp,{t:'сентябрь',v:mln(MONTHS[11].rev).replace('\u00a0₸','')})}</div></div>
+  </div>
+  <div class="card"><div class="hd"><h3>Средние показатели курса</h3></div><div class="bd"><div class="grid g4">
+   <div><div class="muted small">Длительность курса</div><b style="font-size:20px" class="num">${(PATIENTS.reduce((a,p)=>a+p.days,0)/PATIENTS.length).toFixed(1).replace('.',',')} дня</b></div>
+   <div><div class="muted small">Средний чек курса</div><b style="font-size:20px" class="num">${money(PATIENTS.reduce((a,p)=>a+p.total,0)/PATIENTS.length)}</b></div>
+   <div><div class="muted small">Прирост по шкале Бартел</div><b style="font-size:20px" class="num">+${Math.round(PATIENTS.reduce((a,p)=>a+p.bNow-p.bIn,0)/PATIENTS.length)} баллов</b></div>
+   <div><div class="muted small">Снижение боли по ВАШ</div><b style="font-size:20px" class="num">−${(PATIENTS.reduce((a,p)=>a+p.vIn-p.vNow,0)/PATIENTS.length).toFixed(1).replace('.',',')} балла</b></div>
+  </div></div></div>`}};
+
+P.referrals={t:'Реферальная программа',i:'link',r(){
+  const rows=REFS.map((r,i)=>{const leads=[14,11,9,8,7,5,4,3][i];const hosp=Math.round(leads*[.7,.64,.67,.62,.71,.6,.5,.67][i]);const rev=hosp*360000;return{...r,leads,hosp,rev,rew:Math.round(rev*.05)}});
+  const qr=()=>{let s='';for(let i=0;i<121;i++){const x=i%11,y=Math.floor(i/11);const f=(x<3&&y<3)||(x>7&&y<3)||(x<3&&y>7);s+=`<i class="${f||R()<.5?'':'o'}"></i>`}return `<div class="qr">${s}</div>`};
+  return `<div class="grid g4 mb">${kpi('Направляющих врачей',REFS.length,'+2 за месяц','users')}${kpi('Заявок по QR',rows.reduce((a,r)=>a+r.leads,0),'10% всех заявок','link','muted')}${kpi('Госпитализировано',rows.reduce((a,r)=>a+r.hosp,0),'конверсия '+pct(rows.reduce((a,r)=>a+r.hosp,0),rows.reduce((a,r)=>a+r.leads,0))+'%','check')}${kpi('Вознаграждения',money(rows.reduce((a,r)=>a+r.rew,0)),'5% от оплаченного курса','coins','muted')}</div>
+  <div class="grid g-2-1">
+   <div class="card"><div class="hd"><h3>Рейтинг направляющих</h3><div class="sp"></div><button class="btn sm" data-a="toast" data-m="Приглашение отправлено в WhatsApp">${ic('plus')}Пригласить врача</button></div><div class="bd p0 tw"><table class="t"><thead><tr><th>Врач</th><th class="r">Заявки</th><th class="r">Госпит.</th><th class="r">Выручка</th><th class="r">К выплате</th><th></th></tr></thead><tbody>${rows.map(r=>`<tr><td><div class="who">${av(r.n)}<div><b>${r.n}</b><small>${r.org}</small></div></div></td><td class="r num">${r.leads}</td><td class="r num">${r.hosp}</td><td class="r num">${mln(r.rev)}</td><td class="r num"><b>${money(r.rew)}</b></td><td><span class="bdg ${r.hosp>6?'ok':'info'}">${r.hosp>6?'Выплачено':'Начислено'}</span></td></tr>`).join('')}</tbody></table></div></div>
+   <div class="card"><div class="hd"><h3>Персональный QR-код</h3></div><div class="bd"><div class="row" style="flex-wrap:nowrap;align-items:flex-start">${qr()}<div><b>Бекова Г.А.</b><div class="muted small">Городская поликлиника №5</div><div class="small" style="margin-top:8px">Пациент сканирует код, заявка сразу попадает в CRM с отметкой врача.</div></div></div>
+    <div class="tl" style="margin-top:18px"><div class="it done"><b>Врач выдаёт QR пациенту</b><div class="muted small">Визитка или сообщение</div></div><div class="it done"><b>Заявка в CRM</b><div class="muted small">Источник: Направление</div></div><div class="it cur"><b>Пациент госпитализирован</b><div class="muted small">Начисление 5%</div></div><div class="it"><b>Выплата</b><div class="muted small">Раз в месяц</div></div></div></div></div>
+  </div>`}};
+
+P.surveys={t:'Отзывы и опросы',i:'star',r(){
+  const st=n=>`<span style="color:#F2B01E;letter-spacing:1px">${'★'.repeat(n)}<span style="color:#d6dce3">${'★'.repeat(5-n)}</span></span>`;
+  return `<div class="grid g4 mb">${kpi('Индекс лояльности (NPS)',SURV.nps,'▲ 6 за квартал','heart')}${kpi('Средняя оценка','4,8','из 5','star','muted')}${kpi('Ответов за месяц',SURV.n,'82% выписанных','check','muted')}${kpi('Отзывов в 2ГИС','+11','после опроса — ссылка на отзыв','pin')}</div>
+  <div class="grid g2"><div class="card"><div class="hd"><h3>Оценки по направлениям</h3></div><div class="bd" style="display:grid;gap:12px">${SURV.cats.map(([n,v])=>`<div class="row" style="flex-wrap:nowrap"><span style="width:190px;flex:none">${n}</span><div class="bar" style="flex:1"><i style="width:${v/5*100}%;background:${v<4.5?'var(--warn)':'var(--teal)'}"></i></div><b class="num" style="width:30px;text-align:right">${String(v).replace('.',',')}</b></div>`).join('')}</div></div>
+  <div class="card"><div class="hd"><h3>Последние отзывы</h3></div><div class="bd p0">${SURV.list.map(r=>`<div class="list-i" style="align-items:flex-start">${av(r.n)}<div class="gr"><div class="row" style="justify-content:space-between"><b>${esc(r.n)}</b><span class="muted small">${dd(r.d)}</span></div>${st(r.s)}<div class="small" style="margin-top:4px">${esc(r.t)}</div></div></div>`).join('')}</div></div></div>`}};
+
+P.staff={t:'Персонал',i:'users',r(){
+  const all=[...DOCS.map(d=>({id:d.id,s:d.s,pos:d.pos,ph:d.ph,doc:1})),...SPECS.map(s=>({id:s.id,s:s.s,pos:s.pos}))];
+  return `<div class="card"><div class="bd p0 tw"><table class="t"><thead><tr><th>Сотрудник</th><th class="r">Пациентов</th><th class="r">Процедур сегодня</th><th class="r">Процедур за месяц</th><th>Загрузка</th><th class="r">Оценка</th></tr></thead><tbody>${all.map(s=>{const pts=PATIENTS.filter(p=>p.doc===s.id).length;const tod=APPTS.filter(a=>a.who===s.id).length;const mon=tod*19+ri(0,20);const ld=Math.min(100,Math.round(tod/14*100));return `<tr><td><div class="who">${av(s.s,s.ph,'sm')}<div><b>${s.s}</b><small>${s.pos}</small></div></div></td><td class="r num">${pts||'—'}</td><td class="r num">${tod||'—'}</td><td class="r num">${tod?mon:'—'}</td><td>${tod?`<div class="bar" style="width:110px"><i style="width:${ld}%"></i></div>`:'<span class="muted small">приём и обходы</span>'}</td><td class="r num">${(4.6+R()*.4).toFixed(1).replace('.',',')}</td></tr>`}).join('')}</tbody></table></div></div>`}};
+
+/* ---- doctor ---- */
+const myPts=()=>PATIENTS.filter(p=>p.doc===ROLES.doctor.u);
+P.mypat={t:'Мои пациенты',i:'users',r(){
+  const ps=myPts();
+  return `<div class="grid g4 mb">${kpi('Пациентов в стационаре',ps.length,'палаты 1–3 этажа','users','muted')}${kpi('Выписка завтра',ps.filter(p=>p.el===p.days-1).length,'подготовить эпикриз','door','muted')}${kpi('Средний прирост Бартел','+'+Math.round(ps.reduce((a,p)=>a+p.bNow-p.bIn,0)/ps.length),'баллов с поступления','trend')}${kpi('Процедур выполнено',pct(ps.reduce((a,p)=>a+p.procs.reduce((x,y)=>x+y.done,0),0),ps.reduce((a,p)=>a+p.procs.reduce((x,y)=>x+y.tot,0),0))+'%','от назначенных курсов','check','muted')}</div>
+  <div class="card"><div class="hd"><h3>Пациенты · ${ruser('doctor').s}</h3><div class="sp"></div><div class="srch" style="width:220px;display:flex">${ic('search')}<input placeholder="Поиск по ФИО" data-f="pt"></div></div><div class="bd p0 tw"><table class="t" id="ptt"><thead><tr><th>Пациент</th><th>Диагноз</th><th>Палата</th><th>День курса</th><th>Бартел</th><th>Выписка</th></tr></thead><tbody>${ps.map(p=>`<tr class="cl" data-a="pt" data-id="${p.id}" data-s="${esc(p.name.toLowerCase())}"><td><div class="who">${av(p.name)}<div><b>${esc(p.name)}</b><small>${p.age} лет · ${p.id}</small></div></div></td><td><span class="bdg info">${p.d.c}</span> <span class="small">${p.d.n}</span></td><td class="num">${p.bed.replace('-',' · к.')}</td><td style="min-width:120px"><div class="small num">${p.el+1} из ${p.days}</div><div class="bar teal"><i style="width:${pct(p.el+1,p.days)}%"></i></div></td><td class="num">${p.bIn} → <b>${p.bNow}</b></td><td>${p.el===p.days-1?'<span class="bdg warn">Завтра</span>':dd(p.dis)}</td></tr>`).join('')}</tbody></table></div></div>`}};
+P.presc={t:'Назначения и курсы',i:'clip',r(){
+  const ps=myPts().slice(0,8);
+  return `<div class="sec-h"><p>Курсы процедур ваших пациентов · выполнение на ${ddy(TODAY)}</p><div class="sp"></div><button class="btn pr" data-a="toast" data-m="Шаблон курса применён">${ic('plus')}Курс по шаблону</button></div>
+  <div class="grid g2">${ps.map(p=>`<div class="card"><div class="hd">${av(p.name,null,'sm')}<div style="min-width:0"><h3>${esc(p.name)}</h3><div class="muted small">${p.d.n} · день ${p.el+1}/${p.days}</div></div><div class="sp"></div><button class="btn sm" data-a="pt" data-id="${p.id}">Карта</button></div><div class="bd p0">${p.procs.map(x=>`<div class="list-i"><div class="gr"><b>${x.n}</b><small class="muted">${HN(x.h)||'Кабинет'} · ${money(x.p)}</small></div><div style="width:110px"><div class="small num" style="text-align:right">${x.done} / ${x.tot}</div><div class="bar teal"><i style="width:${pct(x.done,x.tot)}%"></i></div></div></div>`).join('')}</div></div>`).join('')}</div>`}};
+P.mysched={t:'Моё расписание',i:'cal',r(){
+  const mine=APPTS.filter(a=>a.who==='d2');const rounds=[{m:8*60+30,t:'Утренний обход',s:'Палаты 101–110',st:'done'},{m:9*60,t:'Планёрка отделения',s:'Кабинет заведующей',st:'done'}];
+  const items=[...rounds.map(r=>({m:r.m,title:r.t,sub:r.s,st:r.st})),...mine.map(a=>({m:a.m,title:a.sv,sub:a.name+(a.out?' · амбулаторно':''),st:a.st})),{m:16*60+30,title:'Оформление выписок',sub:'Эпикризы на 23.09',st:'plan'}].sort((a,b)=>a.m-b.m);
+  return `<div class="grid g-2-1"><div class="card"><div class="hd"><h3>Сегодня, ${ddy(TODAY)}</h3><div class="sp"></div><span class="bdg teal">Сейчас ${tm(NOW_MIN)}</span></div><div class="bd"><div class="tl">${items.map(x=>`<div class="it ${x.st==='done'||x.st==='noshow'?'done':x.st==='now'?'cur':''}"><div class="row" style="justify-content:space-between"><b>${tm(x.m)} · ${esc(x.title)}</b>${x.st==='now'?'<span class="bdg teal">Идёт</span>':x.st==='noshow'?'<span class="bdg bad">Неявка</span>':''}</div><div class="muted small">${esc(x.sub)}</div></div>`).join('')}</div></div></div>
+  <div class="card"><div class="hd"><h3>Неделя</h3></div><div class="bd p0">${['Пн 21.09','Вт 22.09','Ср 23.09','Чт 24.09','Пт 25.09','Сб 26.09'].map((d,i)=>`<div class="list-i"><div class="gr"><b>${d}</b><small class="muted">${i===5?'9:00–13:00':'9:00–17:00'}</small></div><span class="bdg ${i===1?'teal':''}">${[11,mine.length,9,12,10,4][i]} приёмов</span></div>`).join('')}</div></div></div>`}};
+
+/* ---- reg ---- */
+P.leads={t:'Заявки',i:'inbox',badge:newLeads,r(){
+  return `<div class="sec-h"><div class="chips"><button class="chip on">Все · ${LEADS.length}</button><button class="chip">Новые · ${newLeads()}</button><button class="chip hide-m">Сегодня · ${LEADS.filter(l=>l.date.getTime()===TODAY.getTime()).length}</button></div><div class="sp"></div><button class="btn pr" data-a="newlead">${ic('plus')}Заявка</button></div>
+  <div class="grid g-2-1"><div class="card"><div class="bd p0 tw"><table class="t"><thead><tr><th>Клиент</th><th>Запрос</th><th>Этап</th><th>Когда</th><th></th></tr></thead><tbody>${LEADS.slice(0,18).map(l=>{const s=STAGES.find(x=>x.id===l.st);return `<tr><td><div class="who">${srcIco(l.src)}<div><b>${esc(l.name)}</b><small>${l.phone}${l.ref?' · от '+REFS.find(r=>r.id===l.ref).n:''}</small></div></div></td><td><div class="small">${esc(l.reason)}</div><div class="muted small">${esc(l.msg)}</div></td><td><span class="bdg" style="background:${s.c}1a;color:${s.c}">${s.n}</span></td><td class="small num" style="white-space:nowrap">${l.date.getTime()===TODAY.getTime()?'Сегодня':dd(l.date)}, ${l.time}</td><td>${l.st==='new'?`<button class="btn sm pr" data-a="next" data-id="${l.id}">Взять</button>`:''}</td></tr>`}).join('')}</tbody></table></div></div>
+  <div class="card"><div class="hd">${srcIco('WhatsApp')}<h3>WhatsApp · ${esc(LEADS[0].name)}</h3></div><div class="bd"><div class="wa"><div class="bub">${esc(LEADS[0].msg)}<span class="tm">${LEADS[0].time}</span></div><div class="bub">Мама после инсульта, правая сторона. Есть места на следующей неделе?<span class="tm">${LEADS[0].time}</span></div><div class="bub me">Здравствуйте! Да, есть места с 24.09. Курс 14 дней: проживание с питанием, ЛФК, механотерапия, массаж и эрготерапия. Можем записать на бесплатную консультацию по видео.<span class="tm">сейчас ✓✓</span></div></div><div class="row" style="margin-top:12px"><button class="btn sm" data-a="toast" data-m="Шаблон вставлен">Шаблон «Стоимость»</button><button class="btn sm" data-a="toast" data-m="Консультация создана">Записать</button><button class="btn sm pr" data-a="toast" data-m="Сообщение отправлено">${ic('send')}Отправить</button></div></div></div></div>`}};
+P.sched={t:'Запись и расписание',i:'cal',r(){
+  const who=['s1','s2','s3','s4','s5','s6','s7','s8','d3','d2'];
+  const cols=who.length;
+  let g=`<div class="h" style="left:0;position:sticky;z-index:2">Время</div>`+who.map(w=>{const x=WHO(w);return `<div class="h"><b>${x.s}</b>${x.pos}</div>`}).join('');
+  SLOTS.forEach(m=>{if(m==='lunch'){g+=`<div class="tm">13:00</div>`+who.map(()=>`<div class="sl"><div class="ap lunch">Обед</div></div>`).join('');return}
+    g+=`<div class="tm">${tm(m)}</div>`+who.map(w=>{const a=APPTS.find(x=>x.who===w&&x.m===m);if(!a)return `<div class="sl"><button class="btn sm gh" style="width:100%;height:100%;justify-content:center;opacity:.5" data-a="book" data-w="${w}" data-m="${m}">${ic('plus')}</button></div>`;return `<div class="sl"><div class="ap ${a.st}" title="${esc(a.name)} — ${esc(a.sv)}" ${a.pid?`data-a="pt" data-id="${a.pid}"`:''}><b>${esc(a.name.split(' ').slice(0,2).join(' '))}</b><span>${esc(a.sv)}</span></div></div>`}).join('')});
+  const tot=APPTS.length,ns=APPTS.filter(a=>a.st==='noshow').length,conf=APPTS.filter(a=>a.st==='plan'&&a.conf).length,plan=APPTS.filter(a=>a.st==='plan').length;
+  return `<div class="sec-h"><div class="chips"><button class="chip">‹</button><button class="chip on">Сегодня, ${dd(TODAY)}</button><button class="chip">›</button></div><div class="legend hide-m"><span><i style="background:#EEF2F5"></i>Прошло</span><span><i style="background:var(--teal-50)"></i>Идёт</span><span><i style="background:var(--brand-50)"></i>Запись</span><span><i style="background:var(--bad-50)"></i>Неявка</span></div><div class="sp"></div><button class="btn pr" data-a="book">${ic('plus')}Записать</button></div>
+  <div class="grid g4 mb">${kpi('Записей сегодня',tot,'10 специалистов','cal','muted')}${kpi('Подтвердили в WhatsApp',conf+' из '+plan,pct(conf,plan)+'% предстоящих','wa')}${kpi('Неявки',ns,pct(ns,tot)+'% записей','bell',ns>3?'down':'up')}${kpi('Свободных окон',SLOTS.filter(m=>m!=='lunch').length*who.length-tot,'можно предложить в заявках','plus','muted')}</div>
+  <div class="sch" style="grid-template-columns:62px repeat(${cols},minmax(150px,1fr));max-height:640px">${g}</div>`}};
+P.patients={t:'База пациентов',i:'card',r(){
+  return `<div class="sec-h"><div class="chips"><button class="chip on">В стационаре · ${PATIENTS.length}</button><button class="chip">Амбулаторно · 214</button><button class="chip hide-m">Архив · 1 876</button></div><div class="sp"></div><div class="srch" style="display:flex;width:260px">${ic('search')}<input placeholder="ФИО или номер карты" data-f="pt"></div></div>
+  <div class="card"><div class="bd p0 tw"><table class="t" id="ptt"><thead><tr><th>Пациент</th><th>Направление</th><th>Врач</th><th>Палата</th><th>Поступил</th><th>Выписка</th><th>Источник</th><th class="r">Оплата</th></tr></thead><tbody>${PATIENTS.map(p=>{const debt=p.total-p.paid;return `<tr class="cl" data-a="pt" data-id="${p.id}" data-s="${esc(p.name.toLowerCase())} ${p.id.toLowerCase()}"><td><div class="who">${av(p.name)}<div><b>${esc(p.name)}</b><small>${p.id} · ${p.age} лет${p.repeat?' · повторно':''}</small></div></div></td><td><span class="small">${GNAME[p.d.g]}</span></td><td><div class="who">${docAv(p.doc)}<span class="small">${DOC(p.doc).s}</span></div></td><td class="num">${p.bed}</td><td class="num">${dd(p.admit)}</td><td class="num">${dd(p.dis)}</td><td>${srcIco(p.src)}</td><td class="r">${debt>0?`<span class="bdg ${p.paid/p.total<.4?'bad':'warn'}">−${money(debt)}</span>`:'<span class="bdg ok">Оплачено</span>'}</td></tr>`}).join('')}</tbody></table></div></div>`}};
+P.hosp={t:'Госпитализация и выписка',i:'door',r(){
+  const dis=PATIENTS.filter(p=>p.el===p.days-1);
+  return `<div class="grid g2"><div class="card"><div class="hd"><h3>Поступления</h3><div class="sp"></div><span class="bdg info">${BRON.length}</span></div><div class="bd p0">${BRON.map(b=>`<div class="list-i">${srcIco(b.src)}<div class="gr"><b>${esc(b.name)}</b><small class="muted">${b.d.n} · ${b.days} дней · ${b.date.getTime()===TODAY.getTime()?'сегодня':dd(b.date)}</small></div>${b.done?`<span class="bdg ok">Палата ${b.done}</span>`:b.date<=TODAY?`<button class="btn sm pr" data-a="admit" data-id="${b.id}">Разместить</button>`:`<span class="bdg">${dd(b.date)}</span>`}</div>`).join('')}</div></div>
+  <div class="card"><div class="hd"><h3>Выписка завтра, ${dd(addD(TODAY,1))}</h3><div class="sp"></div><span class="bdg warn">${dis.length}</span></div><div class="bd p0">${dis.map(p=>{const debt=p.total-p.paid;return `<div class="list-i">${av(p.name)}<div class="gr"><b>${esc(p.name)}</b><small class="muted">Палата ${p.bed} · ${DOC(p.doc).s} · Бартел ${p.bIn}→${p.bNow}</small></div>${debt>0?`<span class="bdg bad">Долг ${money(debt)}</span>`:'<span class="bdg ok">Готов</span>'}</div>`}).join('')}</div>
+  <div class="bd" style="border-top:1px solid var(--line-2)"><div class="small muted">Перед выпиской система проверяет: эпикриз, оплату, опрос качества, напоминание о повторном курсе через 3 месяца.</div></div></div></div>`}};
+P.remind={t:'Напоминания WhatsApp',i:'wa',r(){
+  return `<div class="grid g4 mb">${kpi('Отправлено за неделю','1 284','98% доставлено','send')}${kpi('Прочитано','91%','в среднем за 14 мин','check','muted')}${kpi('Подтвердили запись','84%','ответили «1»','wa')}${kpi('Неявки','▼ '+MONTHS[11].ns+'%','было 15% до запуска','bell')}</div>
+  <div class="grid g-2-1"><div class="card"><div class="hd"><h3>Рассылки</h3><div class="sp"></div><button class="btn sm pr" data-a="toast" data-m="Рассылка запланирована">${ic('plus')}Новая</button></div><div class="bd p0 tw"><table class="t"><thead><tr><th>Когда</th><th>Сообщение</th><th>Кому</th><th class="r">Кол-во</th><th>Статус</th></tr></thead><tbody>${REM.map(r=>`<tr><td class="small" style="white-space:nowrap">${r.t}</td><td><b style="font-weight:500">${r.k}</b></td><td class="small muted">${r.to}</td><td class="r num">${r.n}</td><td>${r.st==='plan'?'<span class="bdg info">Запланировано</span>':`<span class="bdg ok">Прочитано ${r.rd}/${r.n}</span>`}</td></tr>`).join('')}</tbody></table></div></div>
+  <div class="card"><div class="hd"><h3>Как видит пациент</h3></div><div class="bd"><div class="wa"><div class="bub"><b>Victoria · реабилитационный центр</b><br>Ерлан Кайратович, ваше расписание на завтра, 23.09:<br>09:30 — Кинезотерапия, зал ЛФК №2<br>10:30 — Механотерапия<br>14:00 — Массаж нижней конечности<br>15:00 — Магнитотерапия<br><br>Ответьте 1 — подтверждаю, 2 — нужен перенос.<span class="tm">08:00</span></div><div class="bub me">1<span class="tm">08:03 ✓✓</span></div><div class="bub">Спасибо! Ждём вас. 🙂<span class="tm">08:03</span></div></div></div></div></div>`}};
+
+/* ---- buh ---- */
+P.cash={t:'Касса',i:'cash',r(){
+  const tot=PAYS.reduce((a,p)=>a+p.sum,0);const by={};PAYS.forEach(p=>by[p.m]=(by[p.m]||0)+p.sum);const cols={'Kaspi QR':'#E8423B','Карта':'#0B6FB8','Наличные':'#1C9A66','Перевод':'#6A5BD6'};
+  return `<div class="sec-h"><span class="bdg ok">Смена открыта в 08:45 · Жаксылыкова А.</span><div class="sp"></div><button class="btn" data-a="toast" data-m="Z-отчёт сформирован">Закрыть смену</button><button class="btn pr" data-a="pay">${ic('plus')}Принять оплату</button></div>
+  <div class="grid g4 mb">${kpi('Принято сегодня',money(tot),PAYS.length+' операций','cash')}${Object.entries(by).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([m,v])=>kpi(m,money(v),pct(v,tot)+'% оплат','pay','muted')).join('')}</div>
+  <div class="grid g-2-1"><div class="card"><div class="hd"><h3>Операции за ${ddy(TODAY)}</h3></div><div class="bd p0 tw"><table class="t"><thead><tr><th>Время</th><th>Чек</th><th>Плательщик</th><th>Назначение</th><th>Способ</th><th class="r">Сумма</th></tr></thead><tbody>${PAYS.map(p=>`<tr><td class="num">${p.t}</td><td class="num small muted">${p.id}</td><td>${esc(p.name)}</td><td class="small">${p.kind}</td><td><span class="bdg">${p.m}</span></td><td class="r num"><b>${money(p.sum)}</b></td></tr>`).join('')}</tbody></table></div></div>
+  <div class="card"><div class="hd"><h3>Способы оплаты</h3></div><div class="bd">${donut(Object.entries(by).map(([m,v])=>({l:m,v,c:cols[m]})),{t:'сегодня',v:(tot/1e6).toFixed(2).replace('.',',')+' млн'})}</div></div></div>`}};
+P.debts={t:'Остатки к оплате',i:'wallet',badge:debtCount,r(){
+  const ds=PATIENTS.filter(p=>p.total>p.paid).sort((a,b)=>(b.total-b.paid)-(a.total-a.paid));const sum=ds.reduce((a,p)=>a+p.total-p.paid,0);
+  return `<div class="grid g4 mb">${kpi('Общий остаток',mln(sum),ds.length+' пациентов','wallet','muted')}${kpi('Выписка завтра с долгом',ds.filter(p=>p.el===p.days-1).length,'нужен контроль','alert','down')}${kpi('Напоминаний отправлено','14','вчера в 12:00','wa','muted')}${kpi('Погашено за неделю',mln(sum*.62),'после напоминаний','check')}</div>
+  <div class="card"><div class="hd"><h3>Пациенты с остатком</h3><div class="sp"></div><button class="btn sm" data-a="toast" data-m="Напоминания отправлены 14 пациентам">${ic('wa')}Напомнить всем</button></div><div class="bd p0 tw"><table class="t"><thead><tr><th>Пациент</th><th>Выписка</th><th class="r">Стоимость курса</th><th class="r">Оплачено</th><th>Прогресс</th><th class="r">Остаток</th><th></th></tr></thead><tbody>${ds.map(p=>`<tr><td><div class="who">${av(p.name)}<div><b>${esc(p.name)}</b><small>${p.id} · палата ${p.bed}</small></div></div></td><td class="num">${p.el===p.days-1?'<span class="bdg warn">Завтра</span>':dd(p.dis)}</td><td class="r num">${money(p.total)}</td><td class="r num">${money(p.paid)}</td><td><div class="bar" style="width:100px"><i style="width:${pct(p.paid,p.total)}%"></i></div></td><td class="r num"><b style="color:var(--bad)">${money(p.total-p.paid)}</b></td><td><button class="btn sm" data-a="pay" data-id="${p.id}">Оплата</button></td></tr>`).join('')}</tbody></table></div></div>`}};
+P.salary={t:'Зарплата',i:'coins',r(){
+  const rows=SPECS.map(s=>{const n=APPTS.filter(a=>a.who===s.id).length*20+ri(-15,25);const avgp=s.hall==='mass'?3200:s.hall==='physio'?2600:s.hall==='pool'?8400:s.hall==='mech'?4600:5200;const sum=n*avgp;const fix=150000;return{...s,n,sum,fix,bonus:Math.round(sum*s.rate),tot:fix+Math.round(sum*s.rate)}});
+  return `<div class="sec-h"><div class="chips"><button class="chip">Август</button><button class="chip on">Сентябрь, 1–22</button></div><div class="sp"></div><button class="btn" data-a="toast" data-m="Ведомость выгружена">${ic('inn')}Ведомость</button></div>
+  <div class="grid g4 mb">${kpi('Фонд оплаты',mln(rows.reduce((a,r)=>a+r.tot,0)),'специалисты, 8 чел.','coins','muted')}${kpi('Процедур выполнено',nf(rows.reduce((a,r)=>a+r.n,0)),'учтено автоматически','check')}${kpi('Процент с процедур',mln(rows.reduce((a,r)=>a+r.bonus,0)),'по ставке сотрудника','trend','muted')}${kpi('Ручной ввод','0','данные из расписания','clip')}</div>
+  <div class="card"><div class="bd p0 tw"><table class="t"><thead><tr><th>Сотрудник</th><th class="r">Процедур</th><th class="r">На сумму</th><th class="r">Ставка</th><th class="r">Оклад</th><th class="r">Процент</th><th class="r">Итого</th></tr></thead><tbody>${rows.map(r=>`<tr><td><div class="who">${av(r.s,null,'sm')}<div><b>${r.s}</b><small>${r.pos}</small></div></div></td><td class="r num">${r.n}</td><td class="r num">${money(r.sum)}</td><td class="r num">${Math.round(r.rate*100)}%</td><td class="r num">${money(r.fix)}</td><td class="r num">${money(r.bonus)}</td><td class="r num"><b>${money(r.tot)}</b></td></tr>`).join('')}</tbody></table></div></div>`}};
+P.price={t:'Прайс-лист',i:'list',r(){
+  const gs=[...new Set(PRICE.map(p=>p.g))];
+  return `<div class="sec-h"><p>${CENTER.org} · прайс-лист на медицинские услуги</p><div class="sp"></div><div class="srch" style="display:flex">${ic('search')}<input placeholder="Найти услугу" data-f="pr"></div></div>
+  <div class="grid g2" id="prl">${gs.map(g=>`<div class="card"><div class="hd"><h3>${g}</h3><div class="sp"></div><span class="muted small">${PRICE.filter(p=>p.g===g).length} услуг</span></div><div class="bd p0">${PRICE.filter(p=>p.g===g).map(p=>`<div class="list-i" data-s="${esc(p.n.toLowerCase())}"><div class="gr"><b>${p.n}</b>${p.h?`<small class="muted">${HN(p.h)}</small>`:''}</div><b class="num">${money(p.p)}</b></div>`).join('')}</div></div>`).join('')}</div>`}};
+P.revenue={t:'Выручка',i:'chart',r(){
+  return `<div class="grid g4 mb">${kpi('Сентябрь, 1–22',mln(MONTHS[11].rev*.72),'прогноз на месяц '+mln(MONTHS[11].rev),'cash')}${kpi('Средний чек курса',money(PATIENTS.reduce((a,p)=>a+p.total,0)/PATIENTS.length),'стационар + процедуры','pay','muted')}${kpi('Остаток к получению',mln(PATIENTS.reduce((a,p)=>a+p.total-p.paid,0)),debtCount()+' пациентов','wallet','muted')}${kpi('Рост за год','+'+pct(MONTHS[11].rev-MONTHS[0].rev,MONTHS[0].rev)+'%','к октябрю 2025','trend')}</div>
+  <div class="card"><div class="hd"><h3>Выручка по месяцам, млн ₸</h3></div><div class="bd">${barChart(MONTHS.map(m=>m.rev/1e6),MONTHS.map(m=>m.l),{fmt:v=>v.toFixed(0),h:240,c:'#C5BDF0',hl:'#6A5BD6'})}</div></div>`}};
+
+/* ---- sklad ---- */
+const stockRow=x=>{const days=Math.floor(x.q/x.use);const low=x.q<x.min;return `<tr data-s="${esc(x.n.toLowerCase())}"><td><b style="font-weight:500">${x.n}</b><div class="muted small">${x.cat}</div></td><td class="r num"><b>${nf(x.q)}</b> ${x.u}</td><td class="r num">${nf(x.min)}</td><td style="min-width:110px"><div class="bar"><i style="width:${Math.min(100,pct(x.q,x.min*2))}%;background:${low?'var(--bad)':x.q<x.min*1.3?'var(--warn)':'var(--ok)'}"></i></div></td><td class="r num">${days>60?'60+':days} дн.</td><td>${low?'<span class="bdg bad">Заказать</span>':x.q<x.min*1.3?'<span class="bdg warn">Скоро</span>':'<span class="bdg ok">Норма</span>'}</td></tr>`};
+P.stock={t:'Остатки',i:'box',r(){
+  const val=STOCK.reduce((a,x)=>a+x.q*x.price/10,0);
+  return `<div class="sec-h"><div class="chips"><button class="chip on">Все · ${STOCK.length}</button>${[...new Set(STOCK.map(x=>x.cat))].map(c=>`<button class="chip hide-m">${c}</button>`).join('')}</div><div class="sp"></div><button class="btn" data-a="woff">${ic('outt')}Списать</button><button class="btn pr" data-a="inc">${ic('inn')}Приход</button></div>
+  <div class="grid g4 mb">${kpi('Позиций на складе',STOCK.length,'7 категорий','box','muted')}${kpi('Ниже минимума',lowCount(),'нужно заказать','alert','down')}${kpi('Стоимость остатков',money(val),'по закупочным ценам','cash','muted')}${kpi('Автосписаний сегодня',WOFF.filter(w=>w.auto).length,'по выполненным процедурам','check')}</div>
+  <div class="card"><div class="bd p0 tw"><table class="t"><thead><tr><th>Наименование</th><th class="r">Остаток</th><th class="r">Минимум</th><th>Запас</th><th class="r">Хватит на</th><th>Статус</th></tr></thead><tbody>${STOCK.map(stockRow).join('')}</tbody></table></div></div>`}};
+P.income={t:'Приход',i:'inn',r(){
+  return `<div class="sec-h"><p>Поступления от поставщиков</p><div class="sp"></div><button class="btn pr" data-a="inc">${ic('plus')}Новый приход</button></div>
+  <div class="card"><div class="bd p0 tw"><table class="t"><thead><tr><th>Дата</th><th>Документ</th><th>Поставщик</th><th class="r">Позиций</th><th class="r">Сумма</th><th>Принял</th></tr></thead><tbody>${INC.map(i=>`<tr><td class="num">${ddy(i.d)}</td><td>${i.doc}</td><td>${i.sup}</td><td class="r num">${i.items}</td><td class="r num"><b>${money(i.sum)}</b></td><td class="small">${i.who}</td></tr>`).join('')}</tbody></table></div></div>`}};
+P.woff={t:'Списание',i:'outt',r(){
+  return `<div class="sec-h"><p>Сегодня, ${ddy(TODAY)}. Расходники по процедурам списываются автоматически по нормам.</p><div class="sp"></div><button class="btn pr" data-a="woff">${ic('plus')}Списать вручную</button></div>
+  <div class="grid g-2-1"><div class="card"><div class="bd p0 tw"><table class="t"><thead><tr><th>Время</th><th>Материал</th><th class="r">Кол-во</th><th>Основание</th><th>Тип</th></tr></thead><tbody>${WOFF.map(w=>`<tr><td class="num">${w.t}</td><td>${w.n}</td><td class="r num">${w.q}</td><td class="small">${w.why}</td><td>${w.auto?'<span class="bdg teal">Авто</span>':'<span class="bdg">Вручную</span>'}</td></tr>`).join('')}</tbody></table></div></div>
+  <div class="card"><div class="hd"><h3>Нормы на процедуру</h3></div><div class="bd p0">${[['Парафинотерапия','Парафин 0,3 кг'],['Массаж','Простыня 1 шт, масло 20 мл'],['Ультразвуковая терапия','Гель 25 г'],['Тейпирование','Тейп 0,25 рулона'],['Гидрокинезотерапия','Полотенце 1 шт']].map(([a,b])=>`<div class="list-i"><div class="gr"><b>${a}</b><small class="muted">${b}</small></div></div>`).join('')}</div></div></div>`}};
+P.low={t:'Минимальные остатки',i:'alert',badge:lowCount,r(){
+  const l=STOCK.filter(x=>x.q<x.min*1.3).sort((a,b)=>a.q/a.min-b.q/b.min);
+  return `<div class="sec-h"><p>Позиции ниже или около минимума</p><div class="sp"></div><button class="btn pr" data-a="toast" data-m="Заявка поставщику сформирована">${ic('send')}Заявка поставщику</button></div><div class="card"><div class="bd p0 tw"><table class="t"><thead><tr><th>Наименование</th><th class="r">Остаток</th><th class="r">Минимум</th><th>Запас</th><th class="r">Хватит на</th><th>Статус</th></tr></thead><tbody>${l.map(stockRow).join('')}</tbody></table></div></div>`}};
+
+/* ---- patient ---- */
+P.pcourse={t:'Мой курс',i:'pulse',r(){
+  const p=ME;const done=p.procs.reduce((a,x)=>a+x.done,0),tot=p.procs.reduce((a,x)=>a+x.tot,0);const today=APPTS.filter(a=>a.pid===p.id).sort((a,b)=>a.m-b.m);
+  return `<div class="pc-hero mb"><div class="row" style="flex-wrap:nowrap;justify-content:space-between;align-items:center"><div><div style="opacity:.8" class="small">Добрый день,</div><div style="font-size:21px;font-weight:700">${p.name.split(' ')[1]}</div><div class="small" style="opacity:.85;margin-top:4px">Палата ${p.bed.split('-')[0]} · врач ${DOC(p.doc).s}</div><div style="margin-top:14px" class="small">День ${p.el+1} из ${p.days} · выписка ${dd(p.dis)}</div><div class="bar" style="margin-top:6px;width:200px"><i style="width:${pct(p.el+1,p.days)}%"></i></div></div>${ring(pct(done,tot),'#fff',pct(done,tot)+'%')}</div></div>
+  <div class="grid g2"><div class="card"><div class="hd"><h3>Сегодня</h3><div class="sp"></div><a class="btn sm gh" href="#patient/psched">Всё расписание</a></div><div class="bd"><div class="tl">${today.map(a=>`<div class="it ${a.st==='done'?'done':a.st==='now'?'cur':''}"><b>${tm(a.m)} · ${a.sv}</b><div class="muted small">${HN(a.h)||'Кабинет'} · ${WHO(a.who).s}</div></div>`).join('')}</div></div></div>
+  <div class="card"><div class="hd"><h3>Мой прогресс</h3></div><div class="bd"><div class="small muted">Самостоятельность (шкала Бартел)</div><div class="scale"><span class="num small">${p.bIn}</span><div class="bar teal"><i style="width:${p.bNow}%"></i></div><b class="num">${p.bNow}</b></div><div class="small muted" style="margin-top:10px">Боль (ВАШ, от 0 до 10)</div><div class="scale"><span class="num small">${p.vIn}</span><div class="bar"><i style="width:${p.vNow*10}%;background:var(--warn)"></i></div><b class="num">${p.vNow}</b></div><div class="small" style="margin-top:12px;padding:10px;background:var(--teal-50);border-radius:8px">Врач: «Хорошая динамика. Продолжаем обучение ходьбе, с четверга — без трости в зале».</div></div></div></div>
+  <div class="card" style="margin-top:16px"><div class="hd"><h3>Процедуры курса</h3></div><div class="bd p0">${p.procs.map(x=>`<div class="list-i"><div class="gr"><b>${x.n}</b><small class="muted">${HN(x.h)}</small></div><div style="width:96px"><div class="small num" style="text-align:right">${x.done} из ${x.tot}</div><div class="bar teal"><i style="width:${pct(x.done,x.tot)}%"></i></div></div></div>`).join('')}</div></div>`}};
+P.psched={t:'Расписание',i:'cal',r(){
+  const days=[0,1,2,3,4].map(i=>addD(TODAY,i));const today=APPTS.filter(a=>a.pid===ME.id).sort((a,b)=>a.m-b.m);
+  return `<div class="chips mb">${days.map((d,i)=>`<button class="chip ${i===0?'on':''}">${['Вс','Пн','Вт','Ср','Чт','Пт','Сб'][d.getDay()]} ${dd(d)}</button>`).join('')}</div>
+  <div class="card"><div class="bd p0">${today.map(a=>`<div class="list-i"><div style="width:52px"><b class="num">${tm(a.m)}</b></div><div class="gr"><b>${a.sv}</b><small class="muted">${HN(a.h)} · ${WHO(a.who).s}</small></div>${a.st==='done'?'<span class="bdg ok">Выполнено</span>':'<span class="bdg info">Ожидается</span>'}</div>`).join('')}</div></div>
+  <div class="card" style="margin-top:16px"><div class="bd small">${ic('wa')} Расписание на следующий день приходит в WhatsApp в 08:00. Для переноса ответьте «2» или нажмите кнопку ниже.<div style="margin-top:12px"><button class="btn sm" data-a="toast" data-m="Запрос на перенос отправлен в регистратуру">Попросить перенос</button></div></div></div>`}};
+P.ppay={t:'Оплаты',i:'pay',r(){
+  const p=ME;const debt=p.total-p.paid;
+  return `<div class="card mb"><div class="bd"><div class="muted small">Стоимость курса</div><div style="font-size:26px;font-weight:700" class="num">${money(p.total)}</div><div class="bar" style="margin:10px 0"><i style="width:${pct(p.paid,p.total)}%"></i></div><div class="row" style="justify-content:space-between"><span>Оплачено <b class="num">${money(p.paid)}</b></span><span>Остаток <b class="num" style="color:${debt>0?'var(--bad)':'var(--ok)'}">${money(debt)}</b></span></div>${debt>0?`<button class="btn pr" style="margin-top:14px;width:100%;justify-content:center" data-a="toast" data-m="Счёт Kaspi отправлен в WhatsApp">Оплатить через Kaspi</button>`:''}</div></div>
+  <div class="card"><div class="hd"><h3>Что входит</h3></div><div class="bd p0"><div class="list-i"><div class="gr"><b>Проживание с 4-разовым питанием</b><small class="muted">${p.days} койко-дней × ${money(12000)}</small></div><b class="num">${money(p.days*12000)}</b></div>${p.procs.map(x=>`<div class="list-i"><div class="gr"><b>${x.n}</b><small class="muted">${x.tot} × ${money(x.p)}</small></div><b class="num">${money(x.tot*x.p)}</b></div>`).join('')}</div></div>`}};
+P.pnotif={t:'Уведомления',i:'bell',r(){
+  return `<div class="card"><div class="bd p0">${[['cal','Расписание на завтра','09:30 кинезотерапия, 10:30 механотерапия, 14:00 массаж','08:00'],['pulse','Врач обновил назначения','Добавлено: обучение ходьбе без трости','Вчера'],['pay','Оплата получена','Kaspi QR, спасибо!','Вчера'],['heart','Курс пройден наполовину','Прогресс по шкале Бартел: +'+(ME.bNow-ME.bIn)+' баллов','20.09'],['bell','Добро пожаловать в Victoria','Ваш лечащий врач — '+DOC(ME.doc).s,dd(ME.admit)]].map(([i,t,s,w])=>`<div class="list-i"><span class="src" style="background:var(--brand)">${ic(i)}</span><div class="gr"><b>${t}</b><small class="muted">${s}</small></div><span class="muted small">${w}</span></div>`).join('')}</div></div>`}};
+P.psurvey={t:'Оценить центр',i:'star',r(){
+  const q=['Работа врача','Процедуры и занятия','Отношение персонала','Чистота','Питание'];
+  return `<div class="card"><div class="hd"><h3>Как проходит ваше лечение?</h3></div><div class="bd">${q.map((x,i)=>`<div class="row" style="justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line-2)"><span>${x}</span><div class="stars" data-q="${i}">${[1,2,3,4,5].map(n=>`<button data-a="star" data-n="${n}" aria-label="${n}">${ic('star')}</button>`).join('')}</div></div>`).join('')}<div class="fld" style="margin-top:14px"><label>Комментарий</label><textarea rows="3" placeholder="Что понравилось, что улучшить"></textarea></div><button class="btn pr" data-a="survey">Отправить отзыв</button></div></div>`}};
+
+/* ================= RENDER ================= */
+const SHORT={dash:'Дашборд',beds:'Койки',halls:'Залы',funnel:'Воронка',reports:'Отчёты',referrals:'Рефералы',surveys:'Отзывы',staff:'Персонал',leads:'Заявки',sched:'Запись',patients:'Пациенты',hosp:'Госпит.',remind:'WhatsApp',mypat:'Пациенты',presc:'Назначения',mysched:'Расписание',cash:'Касса',debts:'Долги',salary:'Зарплата',price:'Прайс',revenue:'Выручка',stock:'Остатки',income:'Приход',woff:'Списание',low:'Минимум',pcourse:'Мой курс',psched:'Расписание',ppay:'Оплаты',pnotif:'Уведомл.',psurvey:'Оценить'};
+const root=document.getElementById('root');
+const LOGINS={glav:'glavvrach',doctor:'vrach',reg:'registratura',buh:'buhgalter',sklad:'sklad',patient:'pacient'};
+function loginView(){
+  root.innerHTML=`<div class="login"><div><div class="lbox"><div class="lh"><div class="mk">${LOGO}</div><b>Victoria CRM</b><small>Реабилитационный центр «Victoria», Шымкент</small></div>
+  <form class="lform" id="lf" autocomplete="off"><div class="fld"><label for="lu">Логин</label><div class="inp">${ic('user')}<input id="lu" placeholder="Введите логин"></div></div>
+  <div class="fld"><label for="lp">Пароль</label><div class="inp">${ic('lock')}<input id="lp" type="password" pla
